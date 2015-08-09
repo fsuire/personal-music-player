@@ -10,5 +10,8 @@
    * be used in any application
    */
   angular
-    .module('common', []);
+    .module('common', [
+      'common.logger',
+      'common.router'
+    ]);
 })();

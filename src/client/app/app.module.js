@@ -14,6 +14,9 @@
       'common',
 
       /* Feature areas */
-      'layout'
+      'layout',
+
+      /* States */
+      'app.states'
     ]);
 })();
