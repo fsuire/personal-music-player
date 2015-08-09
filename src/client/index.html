@@ -1,0 +1,27 @@
+<!doctype html>
+<html ng-app="app" ng-strict-di>
+  <head ng-controller="LayoutHeadController as headController">
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ headController.pageTitle }}</title>
+
+    <!-- assets:css -->
+    <!-- endinject-->
+
+    <base href="/">
+  </head>
+  <body>
+    <div ui-view class="content"></div>
+
+    <!-- assets:js -->
+    <!-- endinject-->
+
+    <!-- vendor:js -->
+    <!-- endinject-->
+    <script src="/bower_components/moment/locale/fr.js"></script>
+
+    <!-- application:js -->
+    <!-- endinject-->
+  </body>
+</html>
