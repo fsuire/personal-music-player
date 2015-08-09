@@ -34,7 +34,7 @@
 
     gulp
       .watch(config.client.htmlFiles, function() {
-        runSequence('build');
+        runSequence('build', 'browsersync-reload');
       })
       .on('change', utils.logWatch);
 
