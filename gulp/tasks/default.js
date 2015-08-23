@@ -11,8 +11,9 @@
       ['clean'],
       ['karma'],
       ['build'],
+      ['nodemon'],
+      ['browsersync'],
       ['watch'],
-      ['sync-serve'],
       callback
     );
 

@@ -38,7 +38,7 @@
         .src(config.client.templateFiles)
         .pipe(plug.minifyHtml())
         .pipe(plug.angularTemplatecache('templatecache.js', {
-          module: 'app.core',
+          module: 'app',
           standalone: false,
           root: 'app'
         }))
@@ -55,13 +55,3 @@
   };
 
 })();
-
-      /*gulp
-        .src(config.client.fontFiles)
-        .pipe(plug.newer(config.outputDir + config.clientDir))
-        .pipe(gulp.dest(config.outputDir + config.clientDir))
-        .pipe(plug.if(
-            IS_SYNC,
-            browserSync.reload({ stream: true })
-          )
-        )*/

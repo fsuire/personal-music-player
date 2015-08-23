@@ -1,0 +1,11 @@
+{
+  "ipaddress": "127.0.0.1",
+  "port": 3100,
+
+  "staticDirectories": {
+   "/": "dist/%ENV%/client",
+   "/bower_components": "bower_components",
+   "/app": "dist/%ENV%/client/app",
+   "/assets": "dist/%ENV%/client/assets"
+  }
+}

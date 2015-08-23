@@ -3,7 +3,9 @@
 
   // Copy client code from src to the outputDir
 
-  exports.task = function() {
+  var runSequence = require('run-sequence');
+
+  exports.task = function(callback) {
     var clientFiles = config.client.cssFiles
       .concat(config.client.fontFiles)
       .concat(config.client.htmlFiles)
@@ -14,6 +16,12 @@
       .src(clientFiles)
       .pipe(plug.newer(outputDir))
       .pipe(gulp.dest(outputDir));
+
+    runSequence(
+      ['copy-css', 'copy-fonts', 'copy-html', 'copy-js-client'],
+      callback
+    );
+
   };
 
 })();

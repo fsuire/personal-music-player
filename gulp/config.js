@@ -1,7 +1,16 @@
 'use strict';
 
 module.exports = {
-  server: {},
+  server: {
+    jsFiles: [
+      'src/server/**/*.js',
+      'src/server/**/*.json',
+      '!src/server/**/*.spec.js'
+    ],
+    jsDevFiles: [
+      'src/server/**/*.spec.js'
+    ]
+  },
   client: {
     cssFiles: [
       'src/client/**/*.css'
@@ -12,6 +21,7 @@ module.exports = {
       'src/client/**/*.ttf',
       'src/client/**/*.svg'
     ],
+    stylusMainFile: 'src/client/app/app.styl',
     stylusFiles: [
       'src/client/app/**/*.styl'
     ],

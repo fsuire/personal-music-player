@@ -7,7 +7,7 @@
   var runSequence = require('run-sequence');
 
   exports.task = function() {
-    console.log('watch ');
+
    gulp
       .watch(config.client.stylusFiles, function() {
         runSequence('stylus');
@@ -16,25 +16,37 @@
 
     gulp
       .watch(config.client.cssFiles, function() {
-        runSequence('build', 'browsersync-reload');
+        if(ENV === 'dev' || ENV === 'development') {
+          runSequence('copy-css', 'browsersync-reload');
+        } else {
+          runSequence('build', 'browsersync-reload');
+        }
       })
       .on('change', utils.logWatch);
 
     gulp
       .watch(config.client.jsFiles, function() {
-        runSequence('karma', 'build', 'browsersync-reload');
-      })
-      .on('change', utils.logWatch);
-
-    gulp
-      .watch(config.client.jsDevFiles, function() {
-        runSequence('karma');
+        if(ENV === 'dev' || ENV === 'development') {
+          runSequence('karma', 'copy-js-client', 'browsersync-reload');
+        } else {
+          runSequence('karma', 'build', 'browsersync-reload');
+        }
       })
       .on('change', utils.logWatch);
 
     gulp
       .watch(config.client.htmlFiles, function() {
-        runSequence('build', 'browsersync-reload');
+        if(ENV === 'dev' || ENV === 'development') {
+          runSequence('karma', 'copy-html', 'browsersync-reload');
+        } else {
+          runSequence('karma', 'build', 'browsersync-reload');
+        }
+      })
+      .on('change', utils.logWatch);
+
+    gulp
+      .watch(config.server.jsFiles, function() {
+        runSequence('build');
       })
       .on('change', utils.logWatch);
 

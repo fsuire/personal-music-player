@@ -17,7 +17,7 @@
     var vendorFiles = bowerFiles.ext('js').files;
     var applicationFiles = ['app/**/*.js', '!app/**/*.old.js'];
 
-    if (!IS_DEV) {
+    if (ENV !== 'dev' && ENV !== 'development') {
        cssFiles = 'assets/**/*.min.css';
        assetsFiles = 'assets/*.js';
        vendorFiles = ['assets/scripts/vendor.min.js'];
@@ -40,14 +40,14 @@
 
       // inject bowerfiles js
       .pipe(plug.if(
-        IS_DEV,
+        ENV === 'dev' || ENV === 'development',
         plug.inject(gulp.src(
           vendorFiles,
           {read: false}
         ), {name: 'vendor'}
       )))
       .pipe(plug.if(
-        !IS_DEV,
+        ENV !== 'dev' && ENV !== 'development',
         plug.inject(gulp.src(
           vendorFiles,
           conf

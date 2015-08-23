@@ -7,12 +7,12 @@
 
   exports.task = function() {
     var compress = true;
-    if(IS_DEV) {
+    if(ENV === 'dev' || ENV === 'development') {
       compress = false;
     }
 
     return gulp
-      .src(config.client.stylusFiles)
+      .src(config.client.stylusMainFile)
       .pipe(plug.stylus({
         use: nib(),
         compress: compress

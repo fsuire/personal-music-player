@@ -8,17 +8,10 @@ global.plug        = require('gulp-load-plugins')({ lazy: false });
 
 global.config      = require('./config');
 
+global.ENV         = args.env || 'dev';
 global.ROOT        = path.normalize(__dirname + '/..');
 global.VERSION     = args.version || require('../package.json').version;
-global.SERVER_PORT = args.port || 8080;
-global.IS_SYNC     = args.sync;
-global.IS_DEV      = args.dev;
-global.IS_PROD     = args.prod;
+global.PORT = args.port || 4000;
 
-if(IS_DEV) {
-  global.config.outputDir  += 'dev/';
-  global.config.reportsDir += 'dev/';
-} else if(IS_PROD) {
-  global.config.outputDir  += 'prod/';
-  global.config.reportsDir += 'prod/';
-}
+global.config.outputDir  += ENV + '/';
+global.config.reportsDir += ENV + '/';
