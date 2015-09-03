@@ -10,12 +10,14 @@
       fs.readFileSync('package.json')
     );
 
-    return gulp.src(packageJson.frontlib)
-      .pipe(plug.browserify({
-        insertGlobals : true,
-        debug: true
-      }))
-      .pipe(gulp.dest(config.browserifyFrontlibOutputDir));
+    if(packageJson.frontlib) {
+      return gulp.src(packageJson.frontlib)
+        .pipe(plug.browserify({
+          insertGlobals : true,
+          debug: true
+        }))
+        .pipe(gulp.dest(config.browserifyFrontlibOutputDir));
+    }
   };
 
 })();
