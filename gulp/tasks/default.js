@@ -9,6 +9,7 @@
 
     runSequence(
       ['clean'],
+      ['browserify-frontlib'],
       ['karma'],
       ['build'],
       ['nodemon'],

@@ -50,5 +50,6 @@ module.exports = {
   outputDir: 'dist/',
   reportsDir: 'reports/',
   serverDir: 'server/',
-  sourceDir: 'src/'
+  sourceDir: 'src/',
+  browserifyFrontlibOutputDir: 'browserify_frontlib/'
 };

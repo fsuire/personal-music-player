@@ -11,7 +11,12 @@
 
       del(config.client.styleDir + '**/*.css', function (err, paths) {
         console.log('Deleted files/folders:\n', paths.join('\n'));
-        done(err);
+
+        del(config.browserifyFrontlibOutputDir + '**/*.js', function (err, paths) {
+          console.log('Deleted files/folders:\n', paths.join('\n'));
+          done(err);
+        });
+
       });
     });
   };

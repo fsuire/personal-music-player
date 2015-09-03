@@ -9,6 +9,10 @@
   var utils = require('../utils');
 
   exports.task = function() {
+
+    var jsSources = bowerFiles.ext('js').files;
+    jsSources.push(config.browserifyFrontlibOutputDir + '**/*.js');
+
     return plug.merge(
       gulp
         .src(bowerFiles.ext('css').files)
@@ -23,7 +27,7 @@
           )
         ),
       gulp
-        .src(bowerFiles.ext('js').files)
+        .src(jsSources)
         .pipe(plug.concat('vendor.min.js'))
         .pipe(plug.bytediff.start())
         .pipe(plug.uglify())

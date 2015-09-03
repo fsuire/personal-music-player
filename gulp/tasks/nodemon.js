@@ -30,11 +30,13 @@
         }
       })
       .on('restart', function() {
-        setTimeout(function reload() {
-          browserSync.reload({
-            stream: false   //
-          });
-        }, 500);
+        if(SYNC) {
+          setTimeout(function reload() {
+            browserSync.reload({
+              stream: false   //
+            });
+          }, 500);
+        }
       });
 
   };

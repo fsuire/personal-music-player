@@ -6,7 +6,9 @@
   var browserSync = require('browser-sync');
 
   exports.task = function() {
-    browserSync.reload();
+    if(SYNC) {
+      browserSync.reload();
+    }
   };
 
 })();

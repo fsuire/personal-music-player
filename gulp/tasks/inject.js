@@ -15,6 +15,7 @@
     var cssFiles = 'assets/**/*.css';
     var assetsFiles = 'assets/**/*.js';
     var vendorFiles = bowerFiles.ext('js').files;
+    vendorFiles.push(config.browserifyFrontlibOutputDir + '**/*.js');
     var applicationFiles = ['app/**/*.js', '!app/**/*.old.js'];
 
     if (ENV !== 'dev' && ENV !== 'development') {
