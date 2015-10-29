@@ -11,7 +11,9 @@
     "electrolyte": "0.0.x",
     "express": "4.x",
     "lodash": "3.9.x",
-    "q": "1.2.x"
+    "q": "1.2.x",
+    "socket.io": "^1.3.7",
+    "uid": "0.0.2"
   },
   "devDependencies": {
     "bower-files": "^3.7.0",
@@ -53,6 +55,7 @@
     "run-sequence": "^1.1.0",
     "s": "^0.1.1",
     "sinon": "^1.14.1",
-    "stylus": "^0.51.1"
+    "stylus": "^0.51.1",
+    "uid": "0.0.2"
   }
 }
