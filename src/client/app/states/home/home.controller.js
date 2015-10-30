@@ -5,12 +5,15 @@
     .module('app.states')
     .controller('HomeController', HomeController);
 
-  HomeController.$inject = ['socketIo'];
+  HomeController.$inject = ['$scope', 'socketIo'];
 
-  function HomeController(socketIo) {
+  function HomeController($scope, socketIo) {
     var vm = this;
 
     var _socket = socketIo();
+
+    _socket.on('play', onPlay);
+    _socket.on('pause', onPause);
 
     vm.title = 'Mplayer';
     vm.isPlaying = false;
@@ -39,6 +42,27 @@
       }
 
       _socket.emit(eventName, eventOptions);
+    }
+
+    ////////////////
+
+    function onPlay(options) {
+      console.log('onplay');
+      $scope.$apply(function() {
+        vm.isPlaying = true;
+        vm.playButtonLabel = 'pause';
+      });
+    }
+
+    function onPause(options) {
+      console.log('onplay');
+      $scope.$apply(function() {
+        if(vm.playButtonLabel == 'pause') {
+          vm.playButtonLabel = 'play';
+        } else {
+          vm.playButtonLabel = 'pause';
+        }
+      });
     }
 
   }
