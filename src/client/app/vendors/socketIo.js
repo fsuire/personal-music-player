@@ -3,7 +3,7 @@
   'use strict';
 
   angular
-    .module('vendor')
+    .module('vendors')
     .factory('socketIo', socketIoVendorFactory);
 
   socketIoVendorFactory.$inject = [];

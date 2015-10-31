@@ -12,7 +12,7 @@
     .module('app', [
       /* Shared module */
       'common',
-      'vendor',
+      'vendors',
 
       /* Feature areas */
       'layout',
