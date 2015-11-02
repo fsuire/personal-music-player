@@ -45,7 +45,7 @@
     }
 
     function timeLineAction() {
-      console.log('timeLineAction');
+      _socket.emit('position', vm.meta.timePositionSecond);
     }
 
     ////////////////
@@ -53,8 +53,6 @@
     function socketStatus(status) {
 
       $scope.$apply(function() {
-        //console.log('player.status', status);
-
         vm.pause = status.pause;
         vm.volume = status.volume;
         vm.meta.title = status.meta.title;
@@ -62,7 +60,6 @@
         vm.meta.durationSecond = Math.floor(status.meta.duration);
         vm.meta.timePosition = _second2minute(status.meta.timePosition);
         vm.meta.timePositionSecond = Math.floor(status.meta.timePosition);
-
       });
     }
 

@@ -16,19 +16,29 @@
 
     var player = null;
     var interval = null;
-    var status = {
-      pause: true,
-      volume: 100,
-      meta: {
-        title: null,
-        duration: 0,
-        timePosition: 0
-      }
-    };
+    var status = {};
 
     socketIo
       .of('/mplayer')
       .on('connection', addNewSocket);
+
+    _init();
+
+    ////////////////
+
+    function _init() {
+      player = null;
+      interval = null;
+      status = {
+        pause: true,
+        volume: 100,
+        meta: {
+          title: null,
+          duration: 0,
+          timePosition: 0
+        }
+      };
+    }
 
     ////////////////
 
@@ -37,6 +47,7 @@
       socket.on('play', onPlay);
       socket.on('pause', onPause);
       socket.on('volume', onVolume);
+      socket.on('position', onPosition);
 
       socket.emit('mplayer.status', status);
 
@@ -56,15 +67,16 @@
 
         player.on('exit', function (exitCode) {
           console.log("Child exited with code: " + exitCode);
-          player = null;
+          _init();
+          socketIo.of('/mplayer').emit('mplayer.status', status);
         });
 
         player.stdout.on('data', function (data) {
           data = data.toString();
-          console.log(data);
-          status.meta.title = _seekInputAnswer('ANS_META_TITLE');
-          status.meta.duration = _seekInputAnswer('ANS_LENGTH');
-          status.meta.timePosition = _seekInputAnswer('ANS_TIME_POSITION');
+          //console.log(data);
+          status.meta.title = _seekInputAnswer('ANS_META_TITLE') || status.meta.title;
+          status.meta.duration = _seekInputAnswer('ANS_LENGTH') || status.meta.duration;
+          status.meta.timePosition = _seekInputAnswer('ANS_TIME_POSITION') || status.meta.timePosition;
           socketIo.of('/mplayer').emit('mplayer.status', status);
 
           function _seekInputAnswer(what) {
@@ -94,15 +106,6 @@
         socketIo.of('/mplayer').emit('mplayer.status', status);
       }
 
-      function _togglePause() {
-        status.pause = !status.pause;
-        if(status.pause) {
-          clearInterval(interval);
-        } else {
-          interval = setInterval(onInterval, 100);
-        }
-      }
-
       function onInterval() {
         if(player) {
           player.stdin.write('get_time_pos\n');
@@ -118,6 +121,26 @@
         status.volume = volume;
         socket.broadcast.emit('mplayer.status', status);
       }
+
+      function onPosition(position) {
+        if(player) {
+          player.stdin.write('set_property time_pos ' + position + '\n');
+        }
+        status.meta.timePosition = position;
+        socket.broadcast.emit('mplayer.status', status);
+      }
+
+      ////////////////
+
+      function _togglePause() {
+        status.pause = !status.pause;
+        if(status.pause) {
+          clearInterval(interval);
+        } else {
+          interval = setInterval(onInterval, 100);
+        }
+      }
+
     }
 
   }

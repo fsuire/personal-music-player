@@ -29,8 +29,8 @@
   <input
     type="range"
     min="0"
-    max="100"
-    ng-model="homeController.timeline"
+    max="{{ homeController.meta.durationSecond }}"
+    ng-model="homeController.meta.timePositionSecond"
     ng-mouseup="homeController.timeLineAction()"
   />
 </div>
