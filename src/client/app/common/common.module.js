@@ -12,6 +12,7 @@
   angular
     .module('common', [
       'common.logger',
+      'common.music-player',
       'common.router'
     ]);
 })();

@@ -1,0 +1,37 @@
+<h2>{{ musicPlayer.meta.title || '---' }}</h2>
+<div
+  ng-click="musicPlayer.playAction()"
+  ng-if="musicPlayer.pause"
+>
+  Play
+</div>
+<div
+  ng-click="musicPlayer.pauseAction()"
+  ng-if="!musicPlayer.pause"
+>
+  Pause
+</div>
+
+<div>
+  <label>volume</label>
+  <input
+    type="range"
+    min="0"
+    max="100"
+    ng-model="musicPlayer.volume"
+    ng-change="musicPlayer.volumeAction()"
+  />
+</div>
+
+<div>
+  <label>{{ musicPlayer.meta.timePosition }} / {{ musicPlayer.meta.duration }}</label>
+  <input
+    type="range"
+    min="0"
+    max="{{ musicPlayer.meta.durationSecond }}"
+    ng-model="musicPlayer.meta.timePositionSecond"
+    ng-mouseup="musicPlayer.timeLineAction()"
+  />
+</div>
+
+<pre>{{ musicPlayer.meta | json }}</pre>

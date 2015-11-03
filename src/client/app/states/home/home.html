@@ -1,38 +1,3 @@
 <h1>{{ homeController.title }}</h1>
-<h2>{{ homeController.meta.title || '---' }}</h2>
-<div
-  ng-click="homeController.playAction()"
-  ng-if="homeController.pause"
->
-  Play
-</div>
-<div
-  ng-click="homeController.pauseAction()"
-  ng-if="!homeController.pause"
->
-  Pause
-</div>
 
-<div>
-  <label>volume</label>
-  <input
-    type="range"
-    min="0"
-    max="100"
-    ng-model="homeController.volume"
-    ng-change="homeController.volumeAction()"
-  />
-</div>
-
-<div>
-  <label>{{ homeController.meta.timePosition }} / {{ homeController.meta.duration }}</label>
-  <input
-    type="range"
-    min="0"
-    max="{{ homeController.meta.durationSecond }}"
-    ng-model="homeController.meta.timePositionSecond"
-    ng-mouseup="homeController.timeLineAction()"
-  />
-</div>
-
-<pre>{{ homeController.meta | json }}</pre>
+<music-player></music-player>

@@ -12,6 +12,11 @@ module.exports = {
     ]
   },
   client: {
+    imagesFiles: [
+      'src/client/**/*.png',
+      'src/client/**/*.svg',
+      'src/client/**/*.jpg'
+    ],
     cssFiles: [
       'src/client/**/*.css'
     ],
