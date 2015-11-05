@@ -1,5 +1,13 @@
 @require 'nib'
 @import 'nib/gradients'
 
+global-reset();
+
+// import color theme
+@require 'color-themes/standard-colors.styl'
+
+// import the stylus file that will import the common module's styles
 @require 'common/common.styl'
+
+// import the layout stylesheet
 @require 'layout/layout.styl'

@@ -1,2 +1,24 @@
-music-player
-  background-color: pink;
+music-player {
+  &.bottom-fixed {
+    display: block;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: $white;
+
+    .play-button {
+      position: absolute;
+      padding: 1rem;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 100%
+      background-color: pink;
+      top: -2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+  }
+}
