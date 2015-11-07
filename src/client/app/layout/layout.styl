@@ -3,10 +3,17 @@ body {
   height: 100vh;
   background: url('/assets/app/layout/static/lemu.jpg') no-repeat center fixed;
   background-size : cover;
+  font-family: standardFont;
+  color: $primaryFontColor;
+
+  pre {
+    font-family: monotypeFont;
+  }
   
   h1.main-title {
     font-size: 3.5rem;
     padding: 1rem;
-    background: linear-gradient(top, transparentify($white, 0.4), transparentify($white, 0));
+    text-shadow: -1px -1px 4px transparentify(#FFFFFF, 0.3);
+    background: linear-gradient(top, transparentify(#FFFFFF, 0.4), transparentify(#FFFFFF, 0));
   }
 }

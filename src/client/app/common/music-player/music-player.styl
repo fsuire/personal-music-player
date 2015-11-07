@@ -5,19 +5,100 @@ music-player {
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: $white;
 
-    .play-button {
+    playpause-button() {
       position: absolute;
-      padding: 1rem;
-      width: 2rem;
-      height: 2rem;
+      font-size: 4rem;
+      width: 1em;
+      height: 1em;
+      padding: 2.5rem;
       border-radius: 100%
-      background-color: pink;
-      top: -2rem;
+      background-color: $primaryColor;
+      bottom: -1rem;
+      left: -1.7rem;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 4px 4px 4px 0px transparentify(#000000, 0.6);
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &:before {
+        font-family: sound;
+      }
+    }
+
+    .play-button {
+      playpause-button()
+      &:before {
+        content: '\E800';
+        padding-left: 0.5rem;
+      }
+    }
+
+    .pause-button {
+      playpause-button()
+      &:before {
+        content: '\E801';
+      }
+    }
+
+    .infoline {
+      border-top-right-radius: 0.25rem;
+      background-color: transparentify($backgroundWhite, 0.9);
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      padding-left: 8rem;
+      padding-right: 1rem;
+      padding-top: 0.5rem;
+
+      div {
+        margin-right: 1rem;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+
+      .title {
+        font-size: 1.5rem;
+      }
+
+      .volume {
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        &:before {
+          font-family: sound;
+          content: '\E805';
+        }
+
+        &:after {
+          font-family: sound;
+          content: '\E807';
+        }
+      }
+    }
+
+    .timeline {
+      background-color: transparentify($backgroundWhite, 0.9);
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding-left: 8rem;
+      padding-right: 1rem;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+
+      input {
+        flex-grow: 1;
+      }
+
     }
 
   }
