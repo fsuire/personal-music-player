@@ -9,8 +9,6 @@
 
   function HomeController() {
     var vm = this;
-
-    vm.title = 'Mplayer';
   }
 
 })();

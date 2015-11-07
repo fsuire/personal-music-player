@@ -1,10 +1,8 @@
 music-player {
-  &.bottom-fixed {
+
+  & section.control-panel {
     display: block;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    right: 0;
+    position: relative;
 
     playpause-button() {
       position: absolute;
@@ -47,7 +45,7 @@ music-player {
 
     .infoline {
       border-top-right-radius: 0.25rem;
-      background-color: transparentify($backgroundWhite, 0.9);
+      background-color: $backgroundWhite;
       display: inline-flex;
       flex-direction: row;
       align-items: center;
@@ -86,7 +84,7 @@ music-player {
     }
 
     .timeline {
-      background-color: transparentify($backgroundWhite, 0.9);
+      background-color: $backgroundWhite;
       display: flex;
       flex-direction: row;
       align-items: center;

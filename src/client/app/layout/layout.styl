@@ -5,11 +5,18 @@ body {
   background-size : cover;
   font-family: standardFont;
   color: $primaryFontColor;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 
   pre {
     font-family: monotypeFont;
   }
   
+  div.content {
+    flex-grow: 1;
+  }
+
   h1.main-title {
     font-size: 3.5rem;
     padding: 1rem;

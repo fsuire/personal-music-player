@@ -11,8 +11,9 @@
 
     <base href="/">
   </head>
-  <body>
-    <div ui-view class="content"></div>
+  <body ng-controller="LayoutBodyController as bodyController">
+    <h1 class="main-title">Mplayer</h1>
+    <div ui-view class="content" state="{{ bodyController.stateName }}"></div>
 
     <!-- assets:js -->
     <!-- endinject-->

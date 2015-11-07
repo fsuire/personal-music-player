@@ -67,6 +67,7 @@
 
         player.on('exit', function (exitCode) {
           console.log("Child exited with code: " + exitCode);
+          _togglePause('exit');
           _init();
           socketIo.of('/mplayer').emit('mplayer.status', status);
         });
@@ -93,7 +94,7 @@
         player.stdin.setEncoding('utf-8');
         player.stdin.write('get_meta_title\n');
         player.stdin.write('get_time_length\n');
-        _togglePause()
+        _togglePause('onplay');
 
         socketIo.of('/mplayer').emit('mplayer.status', status);
       }
@@ -102,15 +103,13 @@
         if(player) {
           player.stdin.write('pause\n');
         }
-        _togglePause()
+        _togglePause('onpause');
         socketIo.of('/mplayer').emit('mplayer.status', status);
       }
 
       function onInterval() {
         if(player) {
           player.stdin.write('get_time_pos\n');
-        } else {
-          _togglePause();
         }
       }
 
@@ -132,7 +131,8 @@
 
       ////////////////
 
-      function _togglePause() {
+      function _togglePause(from) {
+        console.log('Toggle pause', from || '', status.pause, !status.pause);
         status.pause = !status.pause;
         if(status.pause) {
           clearInterval(interval);
