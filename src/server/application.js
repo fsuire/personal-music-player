@@ -4,9 +4,9 @@
   module.exports = application;
 
   application['@singleton'] = true;
-  application['@require'] = ['express', 'common/config/config'];
+  application['@require'] = ['lodash', 'express', 'electrolyte', 'common/config/config'];
 
-  function application(express, config) {
+  function application(_, express, IoC, config) {
 
     var app = express();
 
@@ -14,6 +14,10 @@
     for(var i in config.staticDirectories) {
       app.use(i, express.static(config.staticDirectories[i]));
     }
+
+    _.forEach(config.routes, function(route) {
+      IoC.create(route)(app);
+    });
 
     return app;
 

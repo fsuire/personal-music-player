@@ -11,9 +11,21 @@
 
     <base href="/">
   </head>
-  <body ng-controller="LayoutBodyController as bodyController">
-    <h1 class="main-title">Mplayer</h1>
-    <div ui-view class="content" state="{{ bodyController.stateName }}"></div>
+  <body
+    ng-controller="LayoutBodyController as bodyController"
+  >
+    <div style="width: 100%; height: 100%; display: flex; flex-direction: column;" common-draganddrop>
+      <h1
+        class="main-title"
+      >
+        Mplayer
+      </h1>
+      <div
+        ui-view
+        class="content"
+        state="{{ bodyController.stateName }}"
+      ></div>
+    </div>
 
     <!-- assets:js -->
     <!-- endinject-->

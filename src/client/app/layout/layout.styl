@@ -1,3 +1,5 @@
+@require 'form.styl'
+
 body {
   width: 100vw;
   height: 100vh;
@@ -9,18 +11,22 @@ body {
   flex-direction: column;
   overflow: hidden;
 
-  pre {
-    font-family: monotypeFont;
+  h1.main-title {
+    font-size: 3.5rem;
+    padding: 1rem;
+    text-shadow: -1px -1px 4px transparentify(#FFFFFF, 0.3);
+    background: linear-gradient(top, transparentify(#FFFFFF, 0.4), transparentify(#FFFFFF, 0));
   }
   
   div.content {
     flex-grow: 1;
   }
 
-  h1.main-title {
-    font-size: 3.5rem;
-    padding: 1rem;
-    text-shadow: -1px -1px 4px transparentify(#FFFFFF, 0.3);
-    background: linear-gradient(top, transparentify(#FFFFFF, 0.4), transparentify(#FFFFFF, 0));
+  p {
+    margin-bottom: 1rem;
+  }
+
+  pre {
+    font-family: monotypeFont;
   }
 }

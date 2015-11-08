@@ -7,5 +7,9 @@
    "/bower_components": "bower_components",
    "/app": "dist/%ENV%/client/app",
    "/assets": "dist/%ENV%/client/assets"
-  }
+  },
+
+  "routes": [
+    "route/upload-music"
+  ]
 }

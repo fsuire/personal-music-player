@@ -1,0 +1,40 @@
+
+.button-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+button {
+  transition: all 150ms ease;
+  margin: 0.5rem;
+  background: linear-gradient(top, transparentify(#FFFFFF, 0.6) 0.75rem, transparentify(#FFFFFF, 0) 100%);
+  background-color: $secondaryColor;
+  border: 1px solid $secondaryColor;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  color: darken($secondaryColor, 40%);
+
+  &:hover {
+    cursor: pointer;
+    background-color: lighten($secondaryColor, 20%);
+    border-color: lighten($secondaryColor, 20%);
+  }
+
+  &:active {
+    cursor: pointer;
+    background-color: darken($secondaryColor, 10%);
+    border-color: darken($secondaryColor, 10%);
+  }
+
+  &:disabled {
+    color: $disabledFontColor;
+    background-color: $disabledColor;
+    border-color: $disabledColor;
+
+    &:hover {
+      cursor: not-allowed;
+    }
+
+  }
+}

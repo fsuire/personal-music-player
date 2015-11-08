@@ -8,6 +8,7 @@
     "npm": ">= 1.0.0"
   },
   "dependencies": {
+    "connect-busboy": "0.0.2",
     "electrolyte": "0.0.x",
     "express": "4.x",
     "lodash": "3.9.x",

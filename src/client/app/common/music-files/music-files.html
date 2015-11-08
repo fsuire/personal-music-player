@@ -1,1 +1,29 @@
-i am music files
+<p>
+  i am music files
+</p>
+
+<div
+  class="file-drop-zone"
+  nv-file-drop uploader="musicFiles.fileUploader"
+  nv-file-over
+>
+
+  <div ng-show="!musicFiles.fileUploader.queue.length" class="empty-drop-zone">
+  </div>
+
+  <div class="file-list" ng-show="musicFiles.fileUploader.queue.length">
+    <div class="file" ng-repeat="item in musicFiles.fileUploader.queue">
+      {{ item.file.name }}
+    </div>
+  </div>
+
+
+
+  <div class="button-bar">
+    <button
+      ng-disabled="!musicFiles.fileUploader.queue.length"
+      ng-click="musicFiles.uploadFilesAction()"
+      class="upload-button"
+      title="upload"></button>
+  </div>
+</div>

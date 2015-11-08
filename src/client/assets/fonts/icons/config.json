@@ -7,6 +7,30 @@
   "ascent": 850,
   "glyphs": [
     {
+      "uid": "9ea0a737ccc45d6c510dcbae56058849",
+      "css": "music",
+      "code": 59403,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "1b5a5d7b7e3c71437f5a26befdd045ed",
+      "css": "doc",
+      "code": 59402,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "86157b2f942e37940f8702a4a3221a2b",
+      "css": "download-outline",
+      "code": 59401,
+      "src": "typicons"
+    },
+    {
+      "uid": "9367acef93427f6301ee8ab42d45def7",
+      "css": "upload-outline",
+      "code": 59400,
+      "src": "typicons"
+    },
+    {
       "uid": "8489d61496923b1159b01d8a0a7b2df0",
       "css": "volume-off",
       "code": 59396,

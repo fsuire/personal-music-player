@@ -13,6 +13,7 @@
       /* Shared module */
       'common',
       'vendors',
+      'angularFileUpload',
 
       /* Feature areas */
       'layout',
