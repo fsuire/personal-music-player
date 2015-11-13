@@ -21,7 +21,7 @@ music-files {
     background-color: $backgroundWhite;
 
     &.nv-file-over {
-      background-color: lighten($secondaryColor, 60%);
+      background-color: lighten($highlightColor, 60%);
     }
 
     .file-list {
@@ -43,15 +43,15 @@ music-files {
         cursor: default;
       }
     }
+  }
 
-    button.upload-button:before {
-      font-family: icons;
-      content: '\E808';
-    }
+  button.upload-button:before {
+    font-family: icons;
+    content: '\E808';
   }
 
 }
 
 body.common-dragging music-files .file-drop-zone {
-  background-color: lighten($secondaryColor, 80%);
+  background-color: lighten($highlightColor, 80%);
 }

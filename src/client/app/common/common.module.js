@@ -15,6 +15,7 @@
       'common.drag-and-drop',
       'common.music-files',
       'common.music-player',
+      'common.music-playlist',
       'common.router'
     ]);
 })();

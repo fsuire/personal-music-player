@@ -5,10 +5,14 @@
     .module('app.states')
     .controller('HomeController', HomeController);
 
-  HomeController.$inject = [];
+  HomeController.$inject = ['$location', 'socketIo'];
 
-  function HomeController() {
+  function HomeController($location, socketIo) {
     var vm = this;
+
+    vm.meta = {};
+    vm.socket = socketIo.connect($location.host() + ':' + $location.port() + '/mplayer');
+
   }
 
 })();

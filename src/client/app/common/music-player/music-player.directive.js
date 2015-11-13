@@ -13,6 +13,7 @@
       restrict: 'E',
       templateUrl: 'app/common/music-player/music-player.html',
       scope: {
+        socket: '='
       },
       controller: MusiquePlayerController,
       bindToController: true,
@@ -21,24 +22,22 @@
 
   }
 
-  MusiquePlayerController.$inject = ['$scope', '$location', 'socketIo'];
+  MusiquePlayerController.$inject = ['$scope'];
 
-  function MusiquePlayerController($scope, $location, socketIo) {
+  function MusiquePlayerController($scope) {
     var vm = this;
 
-    var _socket = socketIo.connect($location.host() + ':' + $location.port() + '/mplayer');
-
-    _socket.on('mplayer.status', socketStatus);
+    vm.socket.on('mplayer.status', socketStatus);
 
     vm.pause = false;
     vm.volume = null;
-    vm.meta = {
-      title: null,
-      duration: 0,
-      durationSecond: 0,
-      timePosition: 0,
-      timePositionSecond: 0
-    };
+
+    vm.meta = {};
+    vm.meta.title = vm.meta.title || null;
+    vm.meta.duration = vm.meta.duration || 0;
+    vm.meta.durationSecond = vm.meta.durationSecond || 0;
+    vm.meta.timePosition = vm.meta.timePosition || 0;
+    vm.meta.timePositionSecond = vm.meta.timePositionSecond || 0;
 
     vm.playAction = playAction;
     vm.pauseAction = pauseAction;
@@ -48,19 +47,19 @@
     ////////////////
 
     function playAction() {
-      _socket.emit('play', {});
+      vm.socket.emit('play', {});
     }
 
     function pauseAction() {
-      _socket.emit('pause', {});
+      vm.socket.emit('pause', {});
     }
 
     function volumeAction() {
-      _socket.emit('volume', vm.volume);
+      vm.socket.emit('volume', vm.volume);
     }
 
     function timeLineAction() {
-      _socket.emit('position', vm.meta.timePositionSecond);
+      vm.socket.emit('position', vm.meta.timePositionSecond);
     }
 
     ////////////////

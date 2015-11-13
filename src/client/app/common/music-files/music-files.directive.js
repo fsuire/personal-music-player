@@ -13,6 +13,7 @@
       restrict: 'E',
       templateUrl: 'app/common/music-files/music-files.html',
       scope: {
+        socket: '='
       },
       controller: MusiqueFilesController,
       bindToController: true,
@@ -21,10 +22,12 @@
 
   }
 
-  MusiqueFilesController.$inject = ['$scope', 'FileUploader'];
+  MusiqueFilesController.$inject = ['$scope', '$http', 'FileUploader'];
 
-  function MusiqueFilesController($scope, FileUploader) {
+  function MusiqueFilesController($scope, $http, FileUploader) {
     var vm = this;
+
+    vm.musicList = [];
 
     vm.fileUploader = new FileUploader({
       url: 'upload-music'
@@ -47,6 +50,12 @@
     vm.fileUploader.onCompleteAll = onCompleteAll;
 
     vm.uploadFilesAction = uploadFilesAction;
+    vm.addToPlaylistAction = addToPlaylistAction;
+
+    $http.get('/music/list').then(function(response) {
+      console.log(response.data);
+      vm.musicList = response.data;
+    });
 
     ////////////////
 
@@ -71,6 +80,11 @@
 
     function uploadFilesAction() {
       vm.fileUploader.uploadAll();
+    }
+
+    function addToPlaylistAction($event, id) {
+      console.log('/music/play/' + id);
+      vm.socket.emit('addToPlaylist', id);
     }
 
   }

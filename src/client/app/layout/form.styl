@@ -13,24 +13,40 @@ button {
   border: 1px solid $secondaryColor;
   padding: 0.5rem;
   border-radius: 0.25rem;
-  color: darken($secondaryColor, 40%);
+  color: $primaryFontColor;
+
+  &:before {
+    color: darken($secondaryColor, 35%);
+  }
 
   &:hover {
     cursor: pointer;
-    background-color: lighten($secondaryColor, 20%);
-    border-color: lighten($secondaryColor, 20%);
+    background-color: $highlightColor;
+    border-color: $highlightColor;
+
+    &:before {
+      color: darken($highlightColor, 35%);
+    }
   }
 
   &:active {
     cursor: pointer;
-    background-color: darken($secondaryColor, 10%);
-    border-color: darken($secondaryColor, 10%);
+    background-color: darken($highlightColor, 20%);
+    border-color: darken($highlightColor, 20%);
+
+    &:before {
+      color: darken($highlightColor, 55%);
+    }
   }
 
   &:disabled {
     color: $disabledFontColor;
     background-color: $disabledColor;
     border-color: $disabledColor;
+
+    &:before {
+      color: $disabledFontColor;
+    }
 
     &:hover {
       cursor: not-allowed;

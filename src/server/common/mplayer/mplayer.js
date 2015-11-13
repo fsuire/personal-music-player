@@ -36,7 +36,8 @@
           title: null,
           duration: 0,
           timePosition: 0
-        }
+        },
+        playlist: []
       };
     }
 
@@ -48,6 +49,7 @@
       socket.on('pause', onPause);
       socket.on('volume', onVolume);
       socket.on('position', onPosition);
+      socket.on('addToPlaylist', onAddToPlaylist);
 
       socket.emit('mplayer.status', status);
 
@@ -126,6 +128,15 @@
           player.stdin.write('set_property time_pos ' + position + '\n');
         }
         status.meta.timePosition = position;
+        socket.broadcast.emit('mplayer.status', status);
+      }
+
+      function onAddToPlaylist(id) {
+        if(player) {
+          //player.stdin.write('set_property time_pos ' + position + '\n');
+        }
+        status.playlist.push(id);
+        console.log('!!!!!!!!!!', id);
         socket.broadcast.emit('mplayer.status', status);
       }
 
