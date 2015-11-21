@@ -1,6 +1,8 @@
 <section class="panels">
-  <music-playlist socket="homeController.socket"></music-playlist>
-  <music-files socket="homeController.socket"></music-files>
+  <div class="scrollable">
+    <music-files socket="homeController.socket"></music-files>
+    <music-playlist socket="homeController.socket"></music-playlist>
+  </div>
 </section>
 
 <music-player socket="homeController.socket"></music-player>

@@ -21,7 +21,6 @@
         return;
       }
       var grid = Grid(db, mongo);
-      console.log('we have created a grid !', typeof grid);
       defered.resolve(grid);
     }
   }

@@ -68,18 +68,17 @@
 
 
         player.on('exit', function (exitCode) {
-          console.log("Child exited with code: " + exitCode);
-          _togglePause('exit');
+          _togglePause();
           _init();
           socketIo.of('/mplayer').emit('mplayer.status', status);
         });
 
         player.stdout.on('data', function (data) {
           data = data.toString();
-          //console.log(data);
+
           status.meta.title = _seekInputAnswer('ANS_META_TITLE') || status.meta.title;
-          status.meta.duration = _seekInputAnswer('ANS_LENGTH') || status.meta.duration;
-          status.meta.timePosition = _seekInputAnswer('ANS_TIME_POSITION') || status.meta.timePosition;
+          status.meta.duration = parseInt(_seekInputAnswer('ANS_LENGTH')) || status.meta.duration;
+          status.meta.timePosition = parseInt(_seekInputAnswer('ANS_TIME_POSITION')) || status.meta.timePosition;
           socketIo.of('/mplayer').emit('mplayer.status', status);
 
           function _seekInputAnswer(what) {
@@ -90,22 +89,22 @@
         });
 
         player.stderr.on('data', function (data) {
-          //console.log('There was an error: ' + data);
+          data = data.toString();
+          console.log(data);
         });
 
+        _togglePause();
         player.stdin.setEncoding('utf-8');
         player.stdin.write('get_meta_title\n');
         player.stdin.write('get_time_length\n');
-        _togglePause('onplay');
 
-        socketIo.of('/mplayer').emit('mplayer.status', status);
       }
 
       function onPause() {
         if(player) {
           player.stdin.write('pause\n');
         }
-        _togglePause('onpause');
+        _togglePause();
         socketIo.of('/mplayer').emit('mplayer.status', status);
       }
 
@@ -136,14 +135,12 @@
           //player.stdin.write('set_property time_pos ' + position + '\n');
         }
         status.playlist.push(id);
-        console.log('!!!!!!!!!!', id);
-        socket.broadcast.emit('mplayer.status', status);
+        socketIo.of('/mplayer').emit('mplayer.status', status);
       }
 
       ////////////////
 
-      function _togglePause(from) {
-        console.log('Toggle pause', from || '', status.pause, !status.pause);
+      function _togglePause() {
         status.pause = !status.pause;
         if(status.pause) {
           clearInterval(interval);

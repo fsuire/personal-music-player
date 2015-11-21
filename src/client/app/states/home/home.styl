@@ -3,12 +3,29 @@ div.content[state="home"] {
   flex-direction: column;
 
   section.panels {
-    flex-grow: 1;
-
-    display: flex;
-    flex-direction: row;
-
+    flex: 1 50;
+    position: relative;
+    overflow: hidden;
     margin-bottom: 1rem;
+
+    .scrollable {
+      border-radius: 0.25rem;
+      position: absolute;
+      width: 75%;
+      margin: 0 auto;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      overflow-y: auto;
+
+      music-files {
+        border-right: 1px solid $filigreeColor;
+      }
+    }
   }
 
 }

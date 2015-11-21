@@ -1,14 +1,15 @@
 <section class="control-panel">
-  <div
+  <button
     class="play-button"
     ng-click="musicPlayer.playAction()"
     ng-if="musicPlayer.pause"
-  ></div>
-  <div
+    ng-disabled="!musicPlayer.hasPlaylist"
+  ></button>
+  <button
     class="pause-button"
     ng-click="musicPlayer.pauseAction()"
     ng-if="!musicPlayer.pause"
-  ></div>
+  ></button>
 
   <div class="infoline">
     <div class="title">{{ musicPlayer.meta.title || 'Pas de lecture' }}</div>

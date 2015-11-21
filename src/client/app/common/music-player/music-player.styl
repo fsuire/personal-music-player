@@ -1,45 +1,97 @@
 music-player {
 
+  @keyframes ng-enter {
+    from {
+      transform: rotateY(90deg);
+    }
+    50% {
+      transform: rotateY(90deg);
+    }
+    to {
+      transform: rotateY(0deg);
+    }
+  }
+  @keyframes ng-leave {
+    from {
+      transform: rotateY(0deg);
+    }
+    50% {
+      transform: rotateY(-90deg);
+    }
+    to {
+      transform: rotateY(-90deg);
+    }
+  }
+
   & section.control-panel {
     display: block;
     position: relative;
 
     playpause-button() {
+      transform-style:preserve-3d;
       position: absolute;
-      font-size: 4rem;
+      font-size: 5rem;
       width: 1em;
       height: 1em;
-      padding: 2.5rem;
+      padding: 4.5rem;
       border-radius: 100%
-      background-color: $primaryColor;
+      background: none;
       bottom: -1rem;
       left: -1.7rem;
-      display: flex;
+      display: block;
       align-items: center;
       justify-content: center;
       box-shadow: 4px 4px 4px 0px transparentify(#000000, 0.6);
-
-      &:hover {
-        cursor: pointer;
-      }
+      margin: 0;
+      border: 0;
+      animation-duration: 300ms;
 
       &:before {
         font-family: icons;
+        color: $primaryFontColor;
+        position: absolute;
+      }
+
+      &:hover {
+        //cursor: pointer;
+      }
+
+      &:disabled {
+        background-color: $disabledColor;
+
+        &:before {
+          color: $disabledFontColor;
+        }
+      }
+
+      &.ng-enter {
+        animation-name: ng-enter;
+        animation-timing-function: ease-in;
+      }
+      &.ng-leave {
+        animation-name: ng-leave;
+        animation-timing-function: ease-out;
       }
     }
 
     .play-button {
       playpause-button()
+      background-color: $primaryColor;
+
       &:before {
         content: '\E800';
-        padding-left: 0.5rem;
+        left: 3.5rem;
+        top: 1.75rem;
       }
     }
 
     .pause-button {
       playpause-button()
+      background-color: $secondaryColor;
       &:before {
         content: '\E801';
+        left: 2.75rem;
+        top: 1.75rem;
       }
     }
 

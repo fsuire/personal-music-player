@@ -1,11 +1,11 @@
-<p ng-show="!musicFiles.musicList.length">
+<p ng-show="!musicFiles.musicList.length" class="flex-grow">
   Waiting for music...
 </p>
 
-<ul>
+<ul class="flex-grow">
   <li
     ng-repeat="music in musicFiles.musicList"
-    ng-click="musicFiles.addToPlaylistAction($event, music._id)"
+    ng-click="musicFiles.addToPlaylistAction($event, music)"
   >
     {{ music.filename }}
   </li>

@@ -29,7 +29,6 @@
 
     function addMusic(req, res) {
       var file = req.files[0];
-      console.log('/upload-music', file.originalname);
 
       try {
         var writestream = grid.createWriteStream({
@@ -40,7 +39,6 @@
         var pipe = readable.pipe(writestream);
 
         readable.on('end', function() {
-          console.log('/upload-music end');
           res.end();
         });
 
@@ -60,7 +58,6 @@
     }
 
     function playMusic(req, res, next) {
-      console.log(req.params.id);
       var readstream = grid.createReadStream({
         _id: req.params.id
       });

@@ -10,7 +10,6 @@
   function HomeController($location, socketIo) {
     var vm = this;
 
-    vm.meta = {};
     vm.socket = socketIo.connect($location.host() + ':' + $location.port() + '/mplayer');
 
   }

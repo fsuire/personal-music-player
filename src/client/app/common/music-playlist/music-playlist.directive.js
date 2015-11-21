@@ -34,7 +34,6 @@
     ////////////////
 
     function socketStatus(status) {
-      console.log('----->', status);
       $scope.$apply(function() {
         vm.playlist = status.playlist;
       });

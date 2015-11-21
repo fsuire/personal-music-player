@@ -1,1 +1,7 @@
-<pre>{{ musicPlaylist.playlist | json }}</pre>
+<ul>
+  <li
+    ng-repeat="music in musicPlaylist.playlist"
+  >
+    {{ music.filename }}
+  </li>
+</ul>

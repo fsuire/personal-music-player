@@ -10,10 +10,13 @@
    */
   angular
     .module('app', [
+      /* Bower module */
+      'angularFileUpload',
+      'ngAnimate',
+
       /* Shared module */
       'common',
       'vendors',
-      'angularFileUpload',
 
       /* Feature areas */
       'layout',

@@ -29,14 +29,15 @@
 
     vm.socket.on('mplayer.status', socketStatus);
 
-    vm.pause = false;
-    vm.volume = null;
+    vm.hasPlaylist = false;
+    vm.pause = true;
+    vm.volume = 100;
 
     vm.meta = {};
     vm.meta.title = vm.meta.title || null;
-    vm.meta.duration = vm.meta.duration || 0;
+    vm.meta.duration = vm.meta.duration || '00:00';
     vm.meta.durationSecond = vm.meta.durationSecond || 0;
-    vm.meta.timePosition = vm.meta.timePosition || 0;
+    vm.meta.timePosition = vm.meta.timePosition || '00:00';
     vm.meta.timePositionSecond = vm.meta.timePositionSecond || 0;
 
     vm.playAction = playAction;
@@ -74,6 +75,7 @@
         vm.meta.durationSecond = Math.floor(status.meta.duration);
         vm.meta.timePosition = _second2minute(status.meta.timePosition);
         vm.meta.timePositionSecond = Math.floor(status.meta.timePosition);
+        vm.hasPlaylist = !!status.playlist.length;
       });
     }
 
