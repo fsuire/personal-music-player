@@ -53,7 +53,6 @@
     vm.addToPlaylistAction = addToPlaylistAction;
 
     $http.get('/music/list').then(function(response) {
-      console.log(response.data);
       vm.musicList = response.data;
     });
 
@@ -83,7 +82,6 @@
     }
 
     function addToPlaylistAction($event, id) {
-      console.log('/music/play/' + id);
       vm.socket.emit('addToPlaylist', id);
     }
 

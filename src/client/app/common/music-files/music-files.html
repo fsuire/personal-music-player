@@ -4,10 +4,10 @@
 
 <ul class="flex-grow">
   <li
-    ng-repeat="music in musicFiles.musicList"
-    ng-click="musicFiles.addToPlaylistAction($event, music)"
+    ng-repeat="track in musicFiles.musicList"
+    ng-click="musicFiles.addToPlaylistAction($event, track)"
   >
-    {{ music.filename }}
+    {{ track.artist }} - {{ track.album }} - {{ track.title }} - {{ track.duration | formatSeconds }}
   </li>
 </ul>
 

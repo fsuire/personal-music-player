@@ -22,20 +22,21 @@
 
   }
 
-  MusiquePlaylistController.$inject = ['$scope'];
+  MusiquePlaylistController.$inject = ['$scope', 'musicPlaylist'];
 
-  function MusiquePlaylistController($scope) {
+  function MusiquePlaylistController($scope, musicPlaylist) {
     var vm = this;
 
     vm.playlist = [];
 
-    vm.socket.on('mplayer.status', socketStatus);
+    vm.socket.on('mplayer.playlist', socketPlaylist);
 
     ////////////////
 
-    function socketStatus(status) {
+    function socketPlaylist(playlist) {
+      musicPlaylist.playlist = playlist;
       $scope.$apply(function() {
-        vm.playlist = status.playlist;
+        vm.playlist = playlist;
       });
     }
   }

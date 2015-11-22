@@ -4,9 +4,9 @@
   module.exports = uploadMusicRoute;
 
   uploadMusicRoute['@singleton'] = true;
-  uploadMusicRoute['@require'] = ['fs', 'streamifier', 'multer', 'common/mongodb/mongodb', 'common/mongodb/gridFS'];
+  uploadMusicRoute['@require'] = ['fs', 'lodash', 'streamifier', 'multer', 'uid', 'node-ffprobe', 'common/mongodb/mongodb', 'common/mongodb/gridFS'];
 
-  function uploadMusicRoute(fs, streamifier, multer, db, gridFS) {
+  function uploadMusicRoute(fs, _, streamifier, multer, uid, probe, db, gridFS) {
 
     var upload = multer();
 
@@ -31,20 +31,41 @@
       var file = req.files[0];
 
       try {
-        var writestream = grid.createWriteStream({
-          filename: file.originalname
+        var tmpName = 'tmp/' + uid(15);
+        fs.writeFile(tmpName, file.buffer, function(err) {
+          if(err) {
+            console.log('erreur lors de l\'ecriture du fichier', err);
+          }
+          probe(tmpName, function(err, probeData) {
+            if(err) {
+              console.log('erreur lors de l\'analyse du fichier', err);
+            }
+            var writestream = grid.createWriteStream({
+              filename: file.originalname,
+              metadata: {
+                title: probeData.metadata.title,
+                artist: probeData.metadata.artist,
+                album: probeData.metadata.album,
+                duration: probeData.streams[0].duration
+              }
+            });
+
+            var readable = streamifier.createReadStream(file.buffer);
+            var pipe = readable.pipe(writestream);
+
+            readable.on('end', function() {
+              res.end();
+            });
+
+            readable.on('error', function() {
+              console.log('/upload-music error', error);
+            });
+
+            fs.unlinkSync(tmpName);
+          });
         });
 
-        var readable = streamifier.createReadStream(file.buffer);
-        var pipe = readable.pipe(writestream);
 
-        readable.on('end', function() {
-          res.end();
-        });
-
-        readable.on('error', function() {
-          console.log('/upload-music error', error);
-        });
 
       } catch(error) {
         console.log('/upload-music error', error);
@@ -53,7 +74,15 @@
 
     function getMusicList(req, res, next) {
       db.collection('fs.files').find().toArray(function(error, docs) {
-        res.end(JSON.stringify(docs));
+        var response = [];
+        _.forEach(docs, function(doc) {
+          var track = {
+            id: doc._id
+          };
+          _.merge(track, doc.metadata);
+          response.push(track);
+        });
+        res.end(JSON.stringify(response));
       });
     }
 

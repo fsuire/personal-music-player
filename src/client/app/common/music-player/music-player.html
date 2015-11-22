@@ -12,7 +12,8 @@
   ></button>
 
   <div class="infoline">
-    <div class="title">{{ musicPlayer.meta.title || 'Pas de lecture' }}</div>
+    <pre>{{ musicPlayer.meta | json }}</pre>
+    <div class="title">{{ musicPlayer.currentTrack.title || 'Pas de lecture' }}</div>
     <div class="volume">
       <input
         type="range"
@@ -25,14 +26,14 @@
   </div>
 
   <div class="timeline">
-    <div>{{ musicPlayer.meta.timePosition }}</div>
+    <div>{{ musicPlayer.timePosition | formatSeconds }}</div>
     <input
       type="range"
       min="0"
-      max="{{ musicPlayer.meta.durationSecond }}"
-      ng-model="musicPlayer.meta.timePositionSecond"
+      max="{{ musicPlayer.currentTrack.duration || 10 }}"
+      ng-model="musicPlayer.timePosition"
       ng-mouseup="musicPlayer.timeLineAction()"
     />
-    <div>{{ musicPlayer.meta.duration }}</div>
+    <div>{{ musicPlayer.currentTrack.duration | formatSeconds }}</div>
   </div>
 </section>

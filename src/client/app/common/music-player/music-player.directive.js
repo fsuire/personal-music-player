@@ -22,23 +22,21 @@
 
   }
 
-  MusiquePlayerController.$inject = ['$scope'];
+  MusiquePlayerController.$inject = ['$scope', 'musicPlaylist'];
 
-  function MusiquePlayerController($scope) {
+  function MusiquePlayerController($scope, musicPlaylist) {
     var vm = this;
 
-    vm.socket.on('mplayer.status', socketStatus);
+    var _currentTrackIndex = -1;
 
     vm.hasPlaylist = false;
     vm.pause = true;
     vm.volume = 100;
+    vm.timePosition = 0;
+    vm.currentTrack = {duration: 0};
 
-    vm.meta = {};
-    vm.meta.title = vm.meta.title || null;
-    vm.meta.duration = vm.meta.duration || '00:00';
-    vm.meta.durationSecond = vm.meta.durationSecond || 0;
-    vm.meta.timePosition = vm.meta.timePosition || '00:00';
-    vm.meta.timePositionSecond = vm.meta.timePositionSecond || 0;
+    vm.socket.on('mplayer.status', socketStatus);
+    vm.socket.on('mplayer.playlist', socketPlaylist);
 
     vm.playAction = playAction;
     vm.pauseAction = pauseAction;
@@ -60,49 +58,31 @@
     }
 
     function timeLineAction() {
-      vm.socket.emit('position', vm.meta.timePositionSecond);
+      vm.socket.emit('position', vm.timePosition);
     }
 
     ////////////////
 
     function socketStatus(status) {
-
       $scope.$apply(function() {
+        if(_currentTrackIndex !== status.currentTrackIndex) {
+          _currentTrackIndex = status.currentTrackIndex;
+          vm.currentTrack = musicPlaylist.playlist[_currentTrackIndex] || {duration: 0};
+        }
+
         vm.pause = status.pause;
         vm.volume = status.volume;
-        vm.meta.title = status.meta.title;
-        vm.meta.duration = _second2minute(status.meta.duration);
-        vm.meta.durationSecond = Math.floor(status.meta.duration);
-        vm.meta.timePosition = _second2minute(status.meta.timePosition);
-        vm.meta.timePositionSecond = Math.floor(status.meta.timePosition);
-        vm.hasPlaylist = !!status.playlist.length;
+        vm.timePosition = status.timePosition;
       });
     }
 
-    ////////////////
-
-    function _second2minute(seconds) {
-      var minutes = seconds / 60;
-      var floorMinutes = Math.floor(minutes);
-      seconds = Math.floor((minutes - floorMinutes) * 60);
-
-      if(floorMinutes < 60) {
-        return __prefix0(floorMinutes) + ':' + __prefix0(seconds);
-      }
-
-      var hours = floorMinutes / 60;
-      var floorHours = Math.floor(hours);
-      floorMinutes = Math.floor((hours - floorHours) * 60);
-
-      return __prefix0(floorHours) + ':' + __prefix0(floorMinutes) + ':' + __prefix0(seconds);
-
-      function __prefix0(what) {
-        if(what < 10) {
-          what = '0' + what;
+    function socketPlaylist(playlist) {
+      $scope.$apply(function() {
+        vm.hasPlaylist = !!playlist.length;
+        if(_currentTrackIndex > -1 && vm.currentTrack.id !== musicPlaylist.playlist[_currentTrackIndex].id) {
+          vm.currentTrack = musicPlaylist.playlist[_currentTrackIndex];
         }
-        return what;
-      }
-
+      });
     }
 
   }

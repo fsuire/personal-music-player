@@ -10,13 +10,14 @@
   module.exports = mplayer;
 
   mplayer['@singleton'] = true;
-  mplayer['@require'] = ['child_process', 'common/socketIo/socketIo'];
+  mplayer['@require'] = ['child_process','lodash', 'common/socketIo/socketIo'];
 
-  function mplayer(childProcess, socketIo) {
+  function mplayer(childProcess, _, socketIo) {
 
     var player = null;
     var interval = null;
     var status = {};
+    var playlist = [];
 
     socketIo
       .of('/mplayer')
@@ -29,15 +30,12 @@
     function _init() {
       player = null;
       interval = null;
+      playlist = [];
       status = {
         pause: true,
         volume: 100,
-        meta: {
-          title: null,
-          duration: 0,
-          timePosition: 0
-        },
-        playlist: []
+        timePosition: 0,
+        currentTrackIndex: -1
       };
     }
 
@@ -50,8 +48,10 @@
       socket.on('volume', onVolume);
       socket.on('position', onPosition);
       socket.on('addToPlaylist', onAddToPlaylist);
+      socket.on('getPlaylist', onGetPlaylist);
 
       socket.emit('mplayer.status', status);
+      socket.emit('mplayer.playlist', playlist);
 
       ////////////////
 
@@ -61,11 +61,13 @@
           return;
         }
 
-        player = childProcess.spawn('mplayer', [
-          '-slave',
-          '/data/Musique/Amy Winehouse/Back to Black/01 Rehab.mp3'
-        ]);
-
+        var commandOptions = Array.prototype.concat.call(
+          ['-slave'],
+          Array.prototype.map.call(playlist, function(track) {
+            return 'http://localhost:4000/music/play/' + track.id;
+          })
+        );
+        player = childProcess.spawn('mplayer', commandOptions);
 
         player.on('exit', function (exitCode) {
           _togglePause();
@@ -76,9 +78,7 @@
         player.stdout.on('data', function (data) {
           data = data.toString();
 
-          status.meta.title = _seekInputAnswer('ANS_META_TITLE') || status.meta.title;
-          status.meta.duration = parseInt(_seekInputAnswer('ANS_LENGTH')) || status.meta.duration;
-          status.meta.timePosition = parseInt(_seekInputAnswer('ANS_TIME_POSITION')) || status.meta.timePosition;
+          status.timePosition = parseInt(_seekInputAnswer('ANS_TIME_POSITION')) || status.timePosition;
           socketIo.of('/mplayer').emit('mplayer.status', status);
 
           function _seekInputAnswer(what) {
@@ -90,14 +90,15 @@
 
         player.stderr.on('data', function (data) {
           data = data.toString();
-          console.log(data);
+          //console.log(data);
         });
 
-        _togglePause();
         player.stdin.setEncoding('utf-8');
-        player.stdin.write('get_meta_title\n');
-        player.stdin.write('get_time_length\n');
 
+        status.currentTrackIndex = 0;
+        _togglePause();
+        socket.emit('mplayer.playlist', playlist);
+        socket.emit('mplayer.status', status);
       }
 
       function onPause() {
@@ -126,7 +127,7 @@
         if(player) {
           player.stdin.write('set_property time_pos ' + position + '\n');
         }
-        status.meta.timePosition = position;
+        status.timePosition = position;
         socket.broadcast.emit('mplayer.status', status);
       }
 
@@ -134,8 +135,12 @@
         if(player) {
           //player.stdin.write('set_property time_pos ' + position + '\n');
         }
-        status.playlist.push(id);
-        socketIo.of('/mplayer').emit('mplayer.status', status);
+        playlist.push(id);
+        socketIo.of('/mplayer').emit('mplayer.playlist', playlist);
+      }
+
+      function onGetPlaylist() {
+        socket.emit('mplayer.playlist', playlist);
       }
 
       ////////////////

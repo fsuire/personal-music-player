@@ -1,5 +1,7 @@
 'use strict';
 
+global.ROOT_PATH = process.cwd();
+
 var IoC = require('electrolyte');
 
 IoC.loader(IoC.node_modules());

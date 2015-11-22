@@ -11,8 +11,9 @@
    */
   angular
     .module('common', [
-      'common.logger',
       'common.drag-and-drop',
+      'common.filters',
+      'common.logger',
       'common.music-files',
       'common.music-player',
       'common.music-playlist',
