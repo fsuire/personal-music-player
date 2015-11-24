@@ -1,15 +1,35 @@
 music-playlist {
-  flex-grow: 1;
-  background-color: $backgroundWhite;
-  padding: 1rem;
-
+  box-sizing: border-box;
   display:flex;
-  flex-direction: column
+  flex-direction: column;
 
-  button.upload-button:before {
-    font-family: icons;
-    content: '\E808';
+  background-color: $backgroundBlack;
+  color: $basicWhite;
+
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    background-color: $primaryColor;
+    padding: 1rem 0;
+    height: 128px;
   }
 
+  ul.playlist li {
+    transition: 300ms all ease;
+    padding: 1rem;
+    margin: 0.5rem;
+    border-radius: 0.25rem;
+    text-align: center;
+
+    &.selected {
+      background-color: $backgroundPrimary;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: $backgroundHighlight;
+    }
+  }
 }
 

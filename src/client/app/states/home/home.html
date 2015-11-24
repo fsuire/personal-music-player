@@ -1,7 +1,16 @@
 <section class="panels">
-  <div class="scrollable">
-    <music-files socket="homeController.socket"></music-files>
-    <music-playlist socket="homeController.socket"></music-playlist>
+  <music-playlist socket="homeController.socket"></music-playlist>
+  <music-files socket="homeController.socket" ng-hide="!homeController.searchDisplay" class="ng-hide"></music-files>
+  <div class="tabs">
+    <div
+      ng-click="homeController.toggleSearchDisplayAction();"
+      ng-class="{'selected': homeController.searchDisplay}"
+      class="search"
+    ></div>
+    <div
+      ng-click="homeController.toggleFileUploadDisplayAction();"
+      class="file-upload"
+    ></div>
   </div>
 </section>
 

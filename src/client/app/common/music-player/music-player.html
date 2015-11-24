@@ -3,7 +3,7 @@
     class="play-button"
     ng-click="musicPlayer.playAction()"
     ng-if="musicPlayer.pause"
-    ng-disabled="!musicPlayer.hasPlaylist"
+    ng-disabled="musicPlayer.playlistLength === 0"
   ></button>
   <button
     class="pause-button"
@@ -12,8 +12,19 @@
   ></button>
 
   <div class="infoline">
-    <pre>{{ musicPlayer.meta | json }}</pre>
+    <button
+      class="previous-track"
+      ng-click="musicPlayer.previousTrackAction()"
+      ng-disabled="musicPlayer.playlistLength === 0 || musicPlayer.currentTrackIndex === 0"
+    ></button>
+    <button
+      class="next-track"
+      ng-click="musicPlayer.nextTrackAction()"
+      ng-disabled="musicPlayer.playlistLength === 0 || musicPlayer.currentTrackIndex === (musicPlayer.playlistLength - 1)"
+    ></button>
+
     <div class="title">{{ musicPlayer.currentTrack.title || 'Pas de lecture' }}</div>
+
     <div class="volume">
       <input
         type="range"

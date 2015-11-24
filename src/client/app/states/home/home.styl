@@ -2,30 +2,100 @@ div.content[state="home"] {
   display: flex;
   flex-direction: column;
 
+  _music-file-width = calc(100% - 17rem);
+
+  @keyframes remove {
+    from {
+      width: 0;
+      padding: 1rem 0;
+    }
+    to {
+      width: _music-file-width;
+      padding: 1rem;
+    }
+  }
+  @keyframes add {
+    from {
+      width: _music-file-width;
+      padding: 1rem;
+    }
+    to {
+      width: 0;
+      padding: 1rem 0;
+    }
+  }
+
   section.panels {
     flex: 1 50;
     position: relative;
     overflow: hidden;
-    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
 
-    .scrollable {
-      border-radius: 0.25rem;
-      position: absolute;
-      width: 75%;
-      margin: 0 auto;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      overflow-y: auto;
-
-      music-files {
-        border-right: 1px solid $filigreeColor;
-      }
+    music-playlist {
+      width: 12rem;
     }
+
+    music-files {
+      animation-duration: 300ms;
+      width: _music-file-width;
+
+      &.ng-hide-remove {
+        animation-name: remove;
+        animation-timing-function: ease-in;
+      }
+
+      &.ng-hide-add {
+        animation-name: add;
+        animation-timing-function: ease-in;
+      }
+
+    }
+
+    div.tabs {
+      width: 5rem;
+
+      div.search,
+      div.file-upload {
+        transition: all 300ms ease;
+        width: 64px;
+        height: 64px;
+        font-size: 1.5rem;
+        background-color: $backgroundWhite;
+        margin: 0.5rem 0;
+        display: flex;
+        border-top-right-radius: 0.5rem;
+        border-bottom-right-radius: 0.5rem;
+
+        &:before {
+          margin: auto;
+        }
+
+        &:hover {
+          cursor: pointer;
+          width: 72px;
+          font-size: 2rem;
+          color: $highlightFontColor;
+        }
+      }
+
+      .search {
+        &:before {
+          font-family: icons;
+          content: '\E80C';
+        }
+      }
+
+      .file-upload {
+        &:before {
+          font-family: icons;
+          content: '\E808';
+        }
+      }
+
+    }
+
   }
 
 }

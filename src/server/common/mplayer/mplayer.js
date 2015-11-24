@@ -18,6 +18,9 @@
     var interval = null;
     var status = {};
     var playlist = [];
+    var currentTrackIndex = 0;
+    var requestedIndex = null;
+    var startThenPause = false;
 
     socketIo
       .of('/mplayer')
@@ -30,117 +33,218 @@
     function _init() {
       player = null;
       interval = null;
-      playlist = [];
+      playlist = playlist || [];
       status = {
         pause: true,
-        volume: 100,
-        timePosition: 0,
-        currentTrackIndex: -1
+        volume: status.volume || 100,
+        timePosition: 0
       };
     }
 
     ////////////////
 
     function addNewSocket(socket) {
+      try {
+        socket.on('play', onPlay);
+        socket.on('pause', onPause);
+        socket.on('previous-track', onPreviousTrack);
+        socket.on('next-track', onNextTrack);
+        socket.on('play-track', onPlayTrack);
+        socket.on('volume', onVolume);
+        socket.on('position', onPosition);
+        socket.on('addToPlaylist', onAddToPlaylist);
+        socket.on('getPlaylist', onGetPlaylist);
 
-      socket.on('play', onPlay);
-      socket.on('pause', onPause);
-      socket.on('volume', onVolume);
-      socket.on('position', onPosition);
-      socket.on('addToPlaylist', onAddToPlaylist);
-      socket.on('getPlaylist', onGetPlaylist);
-
-      socket.emit('mplayer.status', status);
-      socket.emit('mplayer.playlist', playlist);
+        socket.emit('mplayer.status', status);
+        socket.emit('mplayer.playlist', playlist);
+      } catch(error) {
+        console.log('ERROR ADD NEW SOCKET');
+      }
 
       ////////////////
 
       function onPlay() {
-        if(player) {
-          onPause();
-          return;
+        try {
+          if(player) {
+            onPause();
+            return;
+          }
+
+          _logPlaylist();
+          var commandOptions = ['-slave', 'http://localhost:4000/music/play/' + playlist[currentTrackIndex].id];
+          player = childProcess.spawn('mplayer', commandOptions);
+
+          player.on('exit', function (exitCode) {
+            try {
+              //_togglePause();
+              _init();
+
+              if(!_.isNull(requestedIndex)) {
+                currentTrackIndex = requestedIndex;
+                requestedIndex = null;
+              } else {
+                currentTrackIndex++;
+              }
+
+              if(playlist[currentTrackIndex]) {
+                onPlay();
+              } else {
+                currentTrackIndex = 0;
+                socketIo.of('/mplayer').emit('mplayer.playlist', playlist, currentTrackIndex);
+                socketIo.of('/mplayer').emit('mplayer.status', status);
+              }
+            } catch(error) {
+              console.log('!!mplayer onplay on exit ERROR!!', error);
+            }
+          });
+
+          player.stdout.on('data', function (data) {
+            try {
+              data = data.toString();
+
+              status.timePosition = parseInt(_seekInputAnswer('ANS_TIME_POSITION')) || status.timePosition;
+
+              socketIo.of('/mplayer').emit('mplayer.status', status);
+
+              function _seekInputAnswer(what) {
+                var regexp = new RegExp(what + "='?(.+[^']?)'?\n?");
+                var response = data.match(regexp);
+                return (response) ? response[1] : null;
+              };
+            } catch(error) {
+              console.log('!!mplayer onplay on data ERROR!!', error);
+            }
+          });
+
+          player.stderr.on('data', function (data) {
+            data = data.toString();
+            //console.log(data);
+          });
+
+          player.stdin.setEncoding('utf-8');
+
+          if(startThenPause) {
+            status.pause = !status.pause;
+            onPause();
+          } else {
+            _togglePause();
+          }
+          socketIo.of('/mplayer').emit('mplayer.playlist', playlist, currentTrackIndex);
+          socketIo.of('/mplayer').emit('mplayer.status', status);
+        } catch(error) {
+          console.log('!!mplayer onplay ERROR!!', error);
+          _logPlaylist();
+          console.log('CURRENT TRACK INDEX ->', currentTrackIndex);
         }
 
-        var commandOptions = Array.prototype.concat.call(
-          ['-slave'],
-          Array.prototype.map.call(playlist, function(track) {
-            return 'http://localhost:4000/music/play/' + track.id;
-          })
-        );
-        player = childProcess.spawn('mplayer', commandOptions);
+      }
 
-        player.on('exit', function (exitCode) {
-          _togglePause();
-          _init();
-          socketIo.of('/mplayer').emit('mplayer.status', status);
-        });
+      function onPreviousTrack() {
+        try {
+          startThenPause = status.pause;
+          if(player) {
+            requestedIndex = currentTrackIndex - 1;
+            _killMplayer();
+          } else {
+            currentTrackIndex--;
+            socketIo.of('/mplayer').emit('mplayer.playlist', playlist, currentTrackIndex);
+          }
+        } catch(error) {
+          console.log('!!mplayer onPreviousTrack ERROR!!', error);
+        }
+      }
 
-        player.stdout.on('data', function (data) {
-          data = data.toString();
+      function onNextTrack() {
+        try {
+          startThenPause = status.pause;
+          if(player) {
+            requestedIndex = currentTrackIndex + 1;
+            _killMplayer();
+          } else {
+            currentTrackIndex++;
+            socketIo.of('/mplayer').emit('mplayer.playlist', playlist, currentTrackIndex);
+          }
+        } catch(error) {
+          console.log('!!mplayer onNextTrack ERROR!!', error);
+        }
+      }
 
-          status.timePosition = parseInt(_seekInputAnswer('ANS_TIME_POSITION')) || status.timePosition;
-          socketIo.of('/mplayer').emit('mplayer.status', status);
-
-          function _seekInputAnswer(what) {
-            var regexp = new RegExp(what + "='?(.+[^']?)'?\n?");
-            var response = data.match(regexp);
-            return (response) ? response[1] : null;
-          };
-        });
-
-        player.stderr.on('data', function (data) {
-          data = data.toString();
-          //console.log(data);
-        });
-
-        player.stdin.setEncoding('utf-8');
-
-        status.currentTrackIndex = 0;
-        _togglePause();
-        socket.emit('mplayer.playlist', playlist);
-        socket.emit('mplayer.status', status);
+      function onPlayTrack(trackIndex) {
+        try {
+          startThenPause = status.pause;
+          if(player) {
+            requestedIndex = trackIndex;
+            _killMplayer();
+          } else {
+            currentTrackIndex = trackIndex;
+            socketIo.of('/mplayer').emit('mplayer.playlist', playlist, currentTrackIndex);
+          }
+        } catch(error) {
+          console.log('!!mplayer onPlayTrack ERROR!!', error);
+        }
       }
 
       function onPause() {
-        if(player) {
-          player.stdin.write('pause\n');
+        try {
+          if(player) {
+            player.stdin.write('pause\n');
+          }
+          _togglePause();
+          socketIo.of('/mplayer').emit('mplayer.status', status);
+        } catch(error) {
+          console.log('!!mplayer onPause ERROR!!', error);
         }
-        _togglePause();
-        socketIo.of('/mplayer').emit('mplayer.status', status);
       }
 
       function onInterval() {
-        if(player) {
-          player.stdin.write('get_time_pos\n');
+        try {
+          if(player) {
+            player.stdin.write('get_time_pos\n');
+          }
+        } catch(error) {
+          console.log('oninterval errror', error);
         }
       }
 
       function onVolume(volume) {
-        if(player) {
-          player.stdin.write('set_property volume ' + volume + '\n');
+        try {
+          if(player) {
+            player.stdin.write('set_property volume ' + volume + '\n');
+          }
+          status.volume = volume;
+          socket.broadcast.emit('mplayer.status', status);
+        } catch(error) {
+          console.log('!!mplayer onVolume ERROR!!', error);
         }
-        status.volume = volume;
-        socket.broadcast.emit('mplayer.status', status);
       }
 
       function onPosition(position) {
-        if(player) {
-          player.stdin.write('set_property time_pos ' + position + '\n');
+        try {
+          if(player) {
+            player.stdin.write('set_property time_pos ' + position + '\n');
+          }
+          status.timePosition = position;
+          socket.broadcast.emit('mplayer.status', status);
+        } catch(error) {
+          console.log('!!mplayer onPosition ERROR!!', error);
         }
-        status.timePosition = position;
-        socket.broadcast.emit('mplayer.status', status);
       }
 
       function onAddToPlaylist(id) {
-        if(player) {
-          //player.stdin.write('set_property time_pos ' + position + '\n');
+        try {
+          playlist.push(id);
+          socketIo.of('/mplayer').emit('mplayer.playlist', playlist, currentTrackIndex);
+        } catch(error) {
+          console.log('!!mplayer onAddToPlaylist ERROR!!', error);
         }
-        playlist.push(id);
-        socketIo.of('/mplayer').emit('mplayer.playlist', playlist);
       }
 
       function onGetPlaylist() {
-        socket.emit('mplayer.playlist', playlist);
+        try {
+          socket.emit('mplayer.playlist', playlist, currentTrackIndex);
+        } catch(error) {
+          console.log('!!mplayer onGetPlaylist ERROR!!', error);
+        }
       }
 
       ////////////////
@@ -152,6 +256,23 @@
         } else {
           interval = setInterval(onInterval, 100);
         }
+      }
+
+      function _killMplayer() {
+        try {
+          if(player) {
+            player.kill('SIGINT');
+          }
+        } catch(error) {
+          console.log('!!mplayer _killMplayer ERROR!!', error);
+        }
+      }
+
+      function _logPlaylist() {
+        var toLog = Array.prototype.map.call(playlist, function(track) {
+          return track.title;
+        });
+        console.log('PLAYLIST----->', toLog);
       }
 
     }

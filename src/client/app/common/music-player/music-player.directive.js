@@ -27,19 +27,21 @@
   function MusiquePlayerController($scope, musicPlaylist) {
     var vm = this;
 
-    var _currentTrackIndex = -1;
-
-    vm.hasPlaylist = false;
+    vm.playlistLength = 0;
     vm.pause = true;
     vm.volume = 100;
     vm.timePosition = 0;
     vm.currentTrack = {duration: 0};
+    vm.currentTrackIndex = 0;
 
-    vm.socket.on('mplayer.status', socketStatus);
     vm.socket.on('mplayer.playlist', socketPlaylist);
+    vm.socket.on('mplayer.status', socketStatus);
+    vm.socket.emit('getPlaylist', {});
 
     vm.playAction = playAction;
     vm.pauseAction = pauseAction;
+    vm.previousTrackAction = previousTrackAction;
+    vm.nextTrackAction = nextTrackAction;
     vm.volumeAction = volumeAction;
     vm.timeLineAction = timeLineAction;
 
@@ -53,6 +55,14 @@
       vm.socket.emit('pause', {});
     }
 
+    function previousTrackAction() {
+      vm.socket.emit('previous-track', {});
+    }
+
+    function nextTrackAction() {
+      vm.socket.emit('next-track', {});
+    }
+
     function volumeAction() {
       vm.socket.emit('volume', vm.volume);
     }
@@ -63,25 +73,19 @@
 
     ////////////////
 
-    function socketStatus(status) {
+    function socketPlaylist(playlist, currentTrackIndex) {
       $scope.$apply(function() {
-        if(_currentTrackIndex !== status.currentTrackIndex) {
-          _currentTrackIndex = status.currentTrackIndex;
-          vm.currentTrack = musicPlaylist.playlist[_currentTrackIndex] || {duration: 0};
-        }
-
-        vm.pause = status.pause;
-        vm.volume = status.volume;
-        vm.timePosition = status.timePosition;
+        vm.playlistLength = parseInt(playlist.length);
+        vm.currentTrack = musicPlaylist.playlist[currentTrackIndex] || {duration: 0};
+        vm.currentTrackIndex = currentTrackIndex;
       });
     }
 
-    function socketPlaylist(playlist) {
+    function socketStatus(status) {
       $scope.$apply(function() {
-        vm.hasPlaylist = !!playlist.length;
-        if(_currentTrackIndex > -1 && vm.currentTrack.id !== musicPlaylist.playlist[_currentTrackIndex].id) {
-          vm.currentTrack = musicPlaylist.playlist[_currentTrackIndex];
-        }
+        vm.pause = status.pause;
+        vm.volume = status.volume;
+        vm.timePosition = status.timePosition;
       });
     }
 

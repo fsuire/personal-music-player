@@ -1,25 +1,31 @@
-///////////
-// FONTS //
-///////////
-
-$primaryFontColor = #222222;
-$disabledFontColor =#999999;
-$filigreeFontColor = transparentify($disabledFontColor, 0.2);
-
 ////////////
 // COLORS //
 ////////////
 
 $basicWhite = #EFEFEF;
+$basicBlack = #010101;
 $primaryColor = #973120;
 $secondaryColor = #578223;
 $highlightColor = #E8CC17;
 $disabledColor = #CCCCCC;
 $filigreeColor = transparentify($disabledColor, 0.2);
 
+///////////
+// FONTS //
+///////////
+
+$primaryFontColor = #222222;
+$disabledFontColor =#999999;
+$highlightFontColor = darken($highlightColor, 20%);
+$filigreeFontColor = transparentify($disabledFontColor, 0.2);
+
 ///////////////////////
 // BACKGROUND-COLORS //
 ///////////////////////
 
-$backgroundWhite = transparentify($basicWhite, 0.9);
+$backgroundWhite = transparentify($basicWhite, 0.8);
+$backgroundBlack = transparentify($basicBlack, 0.8);
+$backgroundPrimary = transparentify($primaryColor, 0.8);
+$backgroundSecondary = transparentify($secondaryColor, 0.8);
+$backgroundHighlight = transparentify($highlightColor, 0.8);
 $backgroundEmphase = transparentify($primaryColor, 0.2);

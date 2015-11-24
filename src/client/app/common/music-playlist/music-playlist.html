@@ -1,6 +1,11 @@
-<ul>
+<h1>
+  mPlayer remote playlist
+</h1>
+<ul class="playlist">
   <li
-    ng-repeat="music in musicPlaylist.playlist"
+    ng-repeat="music in musicPlaylist.playlist track by $index"
+    ng-class="{'selected': $index === musicPlaylist.currentTrackIndex }"
+    ng-click="musicPlaylist.clickOnTrackAction($event, $index);"
   >
     {{ music.title }}
   </li>

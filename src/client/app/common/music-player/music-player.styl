@@ -26,6 +26,7 @@ music-player {
   & section.control-panel {
     display: block;
     position: relative;
+    border-top: 1px solid $disabledFontColor;
 
     playpause-button() {
       transform-style:preserve-3d;
@@ -53,7 +54,8 @@ music-player {
       }
 
       &:hover {
-        //cursor: pointer;
+        background-color: darken($highlightColor, 30%);
+        //background-color: $backgroundHighlight;
       }
 
       &:disabled {
@@ -87,7 +89,7 @@ music-player {
 
     .pause-button {
       playpause-button()
-      background-color: $secondaryColor;
+      background-color: $primaryColor;
       &:before {
         content: '\E801';
         left: 2.75rem;
@@ -96,9 +98,8 @@ music-player {
     }
 
     .infoline {
-      border-top-right-radius: 0.25rem;
       background-color: $backgroundWhite;
-      display: inline-flex;
+      display: flex;
       flex-direction: row;
       align-items: center;
       padding-left: 8rem;
@@ -113,12 +114,58 @@ music-player {
         }
       }
 
+      button.previous-track,
+      button.next-track {
+        background: none;
+        border: 1px solid $filigreeFontColor;
+        padding: 0.25rem 1rem;
+        margin: 0;
+
+        &:before {
+          color: $primaryFontColor;
+        }
+
+        &:hover {
+          background-color: $backgroundHighlight;
+        }
+
+        &:disabled {
+          background-color: $disabledColor;
+
+          &:before {
+            color: $disabledFontColor;
+          }
+        }
+      }
+
+      button.previous-track {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+
+        &:before {
+          font-family: icons;
+          content: '\E802';
+        }
+      }
+
+      button.next-track {
+        margin-right: 1rem;
+        border-left: none;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+
+        &:before {
+          font-family: icons;
+          content: '\E803';
+        }
+      }
+
       .title {
         font-size: 1.5rem;
+        flex-grow: 1;
       }
 
       .volume {
-
         display: flex;
         flex-direction: row;
         align-items: center;

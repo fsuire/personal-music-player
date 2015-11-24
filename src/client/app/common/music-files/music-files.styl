@@ -1,10 +1,58 @@
 music-files {
-  flex-grow: 1;
-  background-color: $backgroundWhite;
+  box-sizing: border-box;
   padding: 1rem;
-
+  background-color: $backgroundWhite;
   display:flex;
   flex-direction: column
+  overflow: hidden;
+
+  table.result-list {
+    width: 100%;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+
+    td {
+      padding: 0.5rem;
+      border-right: 1px solid $filigreeFontColor;
+      border-bottom: 1px solid $filigreeFontColor;
+
+      &:first-child {
+        border-left: 1px solid $filigreeFontColor;
+      }
+    }
+
+    thead td {
+      color: $basicWhite;
+      background-color: $backgroundBlack;
+
+      &:first-child {
+        border-top-left-radius: 0.25rem;
+      }
+
+      &:last-child {
+        border-top-right-radius: 0.25rem;
+      }
+    }
+
+    tbody tr {
+      transition: 300ms all ease;
+
+      &:hover {
+        background-color: $backgroundHighlight;
+        cursor: pointer;
+      }
+
+      &:last-child td {
+        &:first-child {
+          border-bottom-left-radius: 0.25rem;
+        }
+
+        &:last-child {
+          border-bottom-right-radius: 0.25rem;
+        }
+      }
+    }
+  }
 
   .file-drop-zone {
     transition: all 300ms ease;

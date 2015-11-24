@@ -10,8 +10,16 @@
   function HomeController($location, socketIo) {
     var vm = this;
 
+    vm.searchDisplay = false;
     vm.socket = socketIo.connect($location.host() + ':' + $location.port() + '/mplayer');
 
+    vm.toggleSearchDisplayAction = toggleSearchDisplayAction;
+
+    ////////////////
+
+    function toggleSearchDisplayAction() {
+      vm.searchDisplay = !vm.searchDisplay;
+    }
   }
 
 })();

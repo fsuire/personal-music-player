@@ -8,7 +8,7 @@
   musicPlaylistFactory.$inject = [];
 
   function musicPlaylistFactory() {
-    var playlist = {playlist: []};
+    var playlist = {playlist: [], currentTrackIndex: 0};
     return playlist;
   }
 
