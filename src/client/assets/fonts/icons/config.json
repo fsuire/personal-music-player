@@ -25,6 +25,18 @@
       "src": "fontawesome"
     },
     {
+      "uid": "3d349daaea304032a7669b4f24931b6c",
+      "css": "shuffle",
+      "code": 59405,
+      "src": "entypo"
+    },
+    {
+      "uid": "8e0220796066428d6ddea96a4f1b5131",
+      "css": "loop",
+      "code": 59406,
+      "src": "entypo"
+    },
+    {
       "uid": "86157b2f942e37940f8702a4a3221a2b",
       "css": "download-outline",
       "code": 59401,

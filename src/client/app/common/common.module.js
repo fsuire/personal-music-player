@@ -17,6 +17,7 @@
       'common.music-files',
       'common.music-player',
       'common.music-playlist',
-      'common.router'
+      'common.router',
+      'common.scroll'
     ]);
 })();

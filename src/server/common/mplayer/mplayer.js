@@ -21,6 +21,8 @@
     var currentTrackIndex = 0;
     var requestedIndex = null;
     var startThenPause = false;
+    var isLoopPlaying = false;
+    var isRandomPlaying = false;
 
     socketIo
       .of('/mplayer')
@@ -54,6 +56,8 @@
         socket.on('position', onPosition);
         socket.on('addToPlaylist', onAddToPlaylist);
         socket.on('getPlaylist', onGetPlaylist);
+        socket.on('toggle-loop-playlist', onToggleLoopPlaylist);
+        socket.on('toggle-random-playlist', onToggleRandomPlaylist);
 
         socket.emit('mplayer.status', status);
         socket.emit('mplayer.playlist', playlist);
@@ -122,6 +126,7 @@
           });
 
           player.stdin.setEncoding('utf-8');
+          onVolume(status.volume);
 
           if(startThenPause) {
             status.pause = !status.pause;
@@ -244,6 +249,25 @@
           socket.emit('mplayer.playlist', playlist, currentTrackIndex);
         } catch(error) {
           console.log('!!mplayer onGetPlaylist ERROR!!', error);
+        }
+      }
+
+      function onToggleLoopPlaylist(isLoop) {
+        try {
+          isLoopPlaying = isLoop;
+          socketIo.of('/mplayer').emit('mplayer.isLoopPlaying', isLoopPlaying);
+        } catch(error) {
+          console.log('!!mplayer onToggleLoopPlaylist ERROR!!', error);
+        }
+      }
+
+      function onToggleRandomPlaylist(isRandom) {
+        try {
+          console.log('!', isRandom);
+          isRandomPlaying = isRandom;
+          socketIo.of('/mplayer').emit('mplayer.isRandomPlaying', isRandomPlaying);
+        } catch(error) {
+          console.log('!!mplayer onToggleRandomPlaylist ERROR!!', error);
         }
       }
 

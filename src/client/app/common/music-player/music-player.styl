@@ -115,7 +115,9 @@ music-player {
       }
 
       button.previous-track,
-      button.next-track {
+      button.next-track,
+      button.loop-playlist,
+      button.random-playlist {
         background: none;
         border: 1px solid $filigreeFontColor;
         padding: 0.25rem 1rem;
@@ -138,26 +140,43 @@ music-player {
         }
       }
 
-      button.previous-track {
+      button.previous-track,
+      button.loop-playlist {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
-
-        &:before {
-          font-family: icons;
-          content: '\E802';
-        }
       }
 
-      button.next-track {
+      button.next-track,
+      button.random-playlist {
         margin-right: 1rem;
         border-left: none;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
+      }
 
-        &:before {
-          font-family: icons;
-          content: '\E803';
-        }
+      button.previous-track:before {
+        font-family: icons;
+        content: '\E802';
+      }
+
+      button.next-track:before {
+        font-family: icons;
+        content: '\E803';
+      }
+
+      button.loop-playlist:before {
+        font-family: icons;
+        content: '\E80E';
+      }
+
+      button.random-playlist:before {
+        font-family: icons;
+        content: '\E80D';
+      }
+
+      button.loop-playlist.selected:before,
+      button.random-playlist.selected:before {
+        color: $primaryColor;
       }
 
       .title {

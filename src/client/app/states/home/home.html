@@ -1,14 +1,43 @@
+
 <section class="panels">
+
   <music-playlist socket="homeController.socket"></music-playlist>
   <music-files socket="homeController.socket" ng-hide="!homeController.searchDisplay" class="ng-hide"></music-files>
+  <div class="file-upload ng-hide" ng-hide="!homeController.fileUploadDisplay">
+    <div
+      class="file-drop-zone"
+      nv-file-drop uploader="homeController.fileUploader"
+      nv-file-over
+    >
+      <div ng-show="!homeController.fileUploader.queue.length" class="empty-drop-zone"></div>
+
+      <div class="file-list" ng-show="homeController.fileUploader.queue.length">
+        <div class="file" ng-repeat="item in homeController.fileUploader.queue">
+          {{ item.file.name }}
+        </div>
+      </div>
+
+    </div>
+
+    <div class="button-bar">
+      <button
+        ng-disabled="!homeController.fileUploader.queue.length"
+        ng-click="homeController.uploadFilesAction()"
+        class="upload-button"
+        title="upload"></button>
+    </div>
+  </div>
+
   <div class="tabs">
     <div
       ng-click="homeController.toggleSearchDisplayAction();"
       ng-class="{'selected': homeController.searchDisplay}"
       class="search"
     ></div>
+
     <div
       ng-click="homeController.toggleFileUploadDisplayAction();"
+      ng-class="{'selected': homeController.fileUploadDisplay}"
       class="file-upload"
     ></div>
   </div>

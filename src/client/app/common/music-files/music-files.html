@@ -2,48 +2,26 @@
   Waiting for music...
 </p>
 
-<table class="result-list">
-  <thead>
-    <tr>
-      <td>Artist</td>
-      <td>Album</td>
-      <td>Title</td>
-      <td>Duration</td>
-    </tr>
-  </thead>
-  <tbody>
-    <tr
-      ng-repeat="track in musicFiles.musicList"
-      ng-click="musicFiles.addToPlaylistAction($event, track)"
-    >
-      <td>{{ track.artist }}</td>
-      <td>{{ track.album }}</td>
-      <td>{{ track.title }}</td>
-      <td>{{ track.duration | formatSeconds }}</td>
-    </tr>
-  </tbody>
-
-</table>
-
-<div
-  class="file-drop-zone"
-  nv-file-drop uploader="musicFiles.fileUploader"
-  nv-file-over
->
-  <div ng-show="!musicFiles.fileUploader.queue.length" class="empty-drop-zone"></div>
-
-  <div class="file-list" ng-show="musicFiles.fileUploader.queue.length">
-    <div class="file" ng-repeat="item in musicFiles.fileUploader.queue">
-      {{ item.file.name }}
-    </div>
-  </div>
-
-</div>
-
-<div class="button-bar">
-  <button
-    ng-disabled="!musicFiles.fileUploader.queue.length"
-    ng-click="musicFiles.uploadFilesAction()"
-    class="upload-button"
-    title="upload"></button>
-</div>
+<scroll class="result-list">
+  <table>
+    <thead>
+      <tr>
+        <td>Artist</td>
+        <td>Album</td>
+        <td>Title</td>
+        <td>Duration</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        ng-repeat="track in musicFiles.musicList"
+        ng-click="musicFiles.addToPlaylistAction($event, track)"
+      >
+        <td>{{ track.artist }}</td>
+        <td>{{ track.album }}</td>
+        <td>{{ track.title }}</td>
+        <td>{{ track.duration | formatSeconds }}</td>
+      </tr>
+    </tbody>
+  </table>
+</scroll>

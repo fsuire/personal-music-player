@@ -23,6 +23,17 @@
       ng-disabled="musicPlayer.playlistLength === 0 || musicPlayer.currentTrackIndex === (musicPlayer.playlistLength - 1)"
     ></button>
 
+    <button
+      class="loop-playlist"
+      ng-click="musicPlayer.toggleLoopPlaylistAction()"
+      ng-class="{'selected': musicPlayer.isLoopPlaying}"
+    ></button>
+    <button
+      class="random-playlist"
+      ng-click="musicPlayer.toggleRandomPlaylistAction()"
+      ng-class="{'selected': musicPlayer.isRandomPlaying}"
+    ></button>
+
     <div class="title">{{ musicPlayer.currentTrack.title || 'Pas de lecture' }}</div>
 
     <div class="volume">

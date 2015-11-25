@@ -33,9 +33,13 @@
     vm.timePosition = 0;
     vm.currentTrack = {duration: 0};
     vm.currentTrackIndex = 0;
+    vm.isLoopPlaying = false;
+    vm.isRandomPlaying = false;
 
     vm.socket.on('mplayer.playlist', socketPlaylist);
     vm.socket.on('mplayer.status', socketStatus);
+    vm.socket.on('mplayer.mplayer.isLoopPlaying', socketIsLoopPlaying);
+    vm.socket.on('mplayer.mplayer.isRandomPlaying', socketIsRandomPlaying);
     vm.socket.emit('getPlaylist', {});
 
     vm.playAction = playAction;
@@ -44,6 +48,8 @@
     vm.nextTrackAction = nextTrackAction;
     vm.volumeAction = volumeAction;
     vm.timeLineAction = timeLineAction;
+    vm.toggleLoopPlaylistAction = toggleLoopPlaylistAction;
+    vm.toggleRandomPlaylistAction = toggleRandomPlaylistAction;
 
     ////////////////
 
@@ -71,6 +77,16 @@
       vm.socket.emit('position', vm.timePosition);
     }
 
+    function toggleLoopPlaylistAction() {
+      //vm.isLoopPlaying = !vm.isLoopPlaying;
+      vm.socket.emit('toggle-loop-playlist', !vm.isLoopPlaying);
+    }
+
+    function toggleRandomPlaylistAction() {
+      //vm.isRandomPlaying = !vm.isRandomPlaying;
+      vm.socket.emit('toggle-random-playlist', !vm.isRandomPlaying);
+    }
+
     ////////////////
 
     function socketPlaylist(playlist, currentTrackIndex) {
@@ -86,6 +102,18 @@
         vm.pause = status.pause;
         vm.volume = status.volume;
         vm.timePosition = status.timePosition;
+      });
+    }
+
+    function socketIsLoopPlaying(isLoop) {
+      $scope.$apply(function() {
+        vm.isLoopPlaying = isLoop;
+      });
+    }
+
+    function socketIsRandomPlaying(isRandom) {
+      $scope.$apply(function() {
+        vm.isRandomPlaying = isRandom;
       });
     }
 
