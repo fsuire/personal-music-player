@@ -1,27 +1,26 @@
-<scroll class="result-list">
-  <p ng-show="!musicFiles.musicList.length" class="flex-grow">
-    Waiting for result...
-  </p>
 
-  <table ng-show="musicFiles.musicList.length">
-    <thead>
-      <tr>
-        <td>Artist</td>
-        <td>Album</td>
-        <td>Title</td>
-        <td>Duration</td>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        ng-repeat="track in musicFiles.musicList"
-        ng-click="musicFiles.addToPlaylistAction($event, track)"
-      >
-        <td>{{ track.artist }}</td>
-        <td>{{ track.album }}</td>
-        <td>{{ track.title }}</td>
-        <td>{{ track.duration | formatSeconds }}</td>
-      </tr>
-    </tbody>
-  </table>
-</scroll>
+<p ng-show="!musicFiles.musicList.length" class="flex-grow">
+  Waiting for result...
+</p>
+
+<table ng-show="musicFiles.musicList.length">
+  <thead>
+    <tr>
+      <td>Artist</td>
+      <td>Album</td>
+      <td>Title</td>
+      <td>Duration</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      ng-repeat="track in musicFiles.musicList"
+      ng-click="musicFiles.addToPlaylistAction($event, track)"
+    >
+      <td>{{ track.artist }}</td>
+      <td>{{ track.album }}</td>
+      <td>{{ track.title }}</td>
+      <td>{{ track.duration | formatSeconds }}</td>
+    </tr>
+  </tbody>
+</table>

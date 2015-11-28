@@ -12,10 +12,10 @@
     var document = $document[0];
 
     return {
-      restrict: 'E',
+      restrict: 'A',
       link: function($scope, $element, attributes) {
         var element = $element[0];
-        //element.parentElement.classList.add('scroll-parent');
+        element.classList.add('scrollable');
 
         var scrollableElement = document.createElement('scrollable-element');
 

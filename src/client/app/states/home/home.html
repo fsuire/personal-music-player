@@ -3,11 +3,11 @@
 
   <music-playlist socket="homeController.socket"></music-playlist>
 
-  <div class="music-search" ng-hide="!homeController.searchDisplay" class="ng-hide">
-    <music-files socket="homeController.socket"></music-files>
+  <div class="music-search panel ng-hide" ng-hide="!homeController.searchDisplay">
+    <music-files socket="homeController.socket" scroll></music-files>
   </div>
 
-  <div class="file-upload ng-hide" ng-hide="!homeController.fileUploadDisplay">
+  <div class="file-upload panel ng-hide" ng-hide="!homeController.fileUploadDisplay">
     <div
       class="file-drop-zone"
       nv-file-drop uploader="homeController.fileUploader"
