@@ -38,8 +38,8 @@
 
     vm.socket.on('mplayer.playlist', socketPlaylist);
     vm.socket.on('mplayer.status', socketStatus);
-    vm.socket.on('mplayer.mplayer.isLoopPlaying', socketIsLoopPlaying);
-    vm.socket.on('mplayer.mplayer.isRandomPlaying', socketIsRandomPlaying);
+    vm.socket.on('mplayer.isLoopPlaying', socketIsLoopPlaying);
+    vm.socket.on('mplayer.isRandomPlaying', socketIsRandomPlaying);
     vm.socket.emit('getPlaylist', {});
 
     vm.playAction = playAction;

@@ -23,6 +23,7 @@
     var startThenPause = false;
     var isLoopPlaying = false;
     var isRandomPlaying = false;
+    var lastIds = [];
 
     socketIo
       .of('/mplayer')
@@ -61,6 +62,8 @@
 
         socket.emit('mplayer.status', status);
         socket.emit('mplayer.playlist', playlist);
+        socket.emit('mplayer.isLoopPlaying', isLoopPlaying);
+        socket.emit('mplayer.isRandomPlaying', isRandomPlaying);
       } catch(error) {
         console.log('ERROR ADD NEW SOCKET');
       }
@@ -80,14 +83,13 @@
 
           player.on('exit', function (exitCode) {
             try {
-              //_togglePause();
               _init();
 
               if(!_.isNull(requestedIndex)) {
                 currentTrackIndex = requestedIndex;
                 requestedIndex = null;
               } else {
-                currentTrackIndex++;
+                currentTrackIndex = _incrementCurrentTrackIndex();
               }
 
               if(playlist[currentTrackIndex]) {
@@ -162,11 +164,14 @@
       function onNextTrack() {
         try {
           startThenPause = status.pause;
+
+          var computedIndex = _incrementCurrentTrackIndex();
+
           if(player) {
-            requestedIndex = currentTrackIndex + 1;
+            requestedIndex = computedIndex;
             _killMplayer();
           } else {
-            currentTrackIndex++;
+            currentTrackIndex = computedIndex;
             socketIo.of('/mplayer').emit('mplayer.playlist', playlist, currentTrackIndex);
           }
         } catch(error) {
@@ -263,7 +268,6 @@
 
       function onToggleRandomPlaylist(isRandom) {
         try {
-          console.log('!', isRandom);
           isRandomPlaying = isRandom;
           socketIo.of('/mplayer').emit('mplayer.isRandomPlaying', isRandomPlaying);
         } catch(error) {
@@ -290,6 +294,19 @@
         } catch(error) {
           console.log('!!mplayer _killMplayer ERROR!!', error);
         }
+      }
+
+      function _incrementCurrentTrackIndex() {
+        var index = 0;
+        if(isRandomPlaying) {
+          index = Math.floor(Math.random() * playlist.length);
+        } else {
+          index = currentTrackIndex + 1;
+        }
+        if(isLoopPlaying && index === playlist.length) {
+          index = 0;
+        }
+        return index;
       }
 
       function _logPlaylist() {

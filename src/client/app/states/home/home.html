@@ -2,7 +2,11 @@
 <section class="panels">
 
   <music-playlist socket="homeController.socket"></music-playlist>
-  <music-files socket="homeController.socket" ng-hide="!homeController.searchDisplay" class="ng-hide"></music-files>
+
+  <div class="music-search" ng-hide="!homeController.searchDisplay" class="ng-hide">
+    <music-files socket="homeController.socket"></music-files>
+  </div>
+
   <div class="file-upload ng-hide" ng-hide="!homeController.fileUploadDisplay">
     <div
       class="file-drop-zone"

@@ -20,7 +20,7 @@
     <button
       class="next-track"
       ng-click="musicPlayer.nextTrackAction()"
-      ng-disabled="musicPlayer.playlistLength === 0 || musicPlayer.currentTrackIndex === (musicPlayer.playlistLength - 1)"
+      ng-disabled="musicPlayer.playlistLength === 0 || (musicPlayer.currentTrackIndex === (musicPlayer.playlistLength - 1)  && !musicPlayer.isLoopPlaying)"
     ></button>
 
     <button

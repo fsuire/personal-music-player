@@ -30,6 +30,23 @@ music-playlist {
       cursor: pointer;
       background-color: $backgroundHighlight;
     }
+
+    .horizontal-separator {
+      margin: 0.10rem auto;
+      border: none;
+      transform: rotate(45deg);
+      color: transparentify($basicWhite, 0.8);
+
+      &:before {
+        font-size: 0.35rem;
+        font-family: icons;
+        content: '\E80F';
+      }
+    }
+
+    .artist {
+      font-style: italic;
+    }
   }
 }
 

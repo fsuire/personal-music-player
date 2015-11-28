@@ -1,9 +1,9 @@
-<p ng-show="!musicFiles.musicList.length" class="flex-grow">
-  Waiting for music...
-</p>
-
 <scroll class="result-list">
-  <table>
+  <p ng-show="!musicFiles.musicList.length" class="flex-grow">
+    Waiting for result...
+  </p>
+
+  <table ng-show="musicFiles.musicList.length">
     <thead>
       <tr>
         <td>Artist</td>

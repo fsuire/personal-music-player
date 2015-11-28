@@ -7,6 +7,8 @@
     ng-class="{'selected': $index === musicPlaylist.currentTrackIndex }"
     ng-click="musicPlaylist.clickOnTrackAction($event, $index);"
   >
-    {{ music.title }}
+    <div class="title">{{ music.title }}</div>
+    <div class="horizontal-separator"></div>
+    <div class="artist">{{ music.artist }}</div>
   </li>
 </ul>

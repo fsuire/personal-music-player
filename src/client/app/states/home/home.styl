@@ -37,9 +37,12 @@ div.content[state="home"] {
       width: 12rem;
     }
 
-    music-files,
+    .music-search,
     .file-upload {
       animation-duration: 300ms;
+      background-color: $backgroundWhite;
+      padding: 1rem;
+
       width: _music-file-width;
 
       &.ng-hide-remove {
@@ -51,11 +54,6 @@ div.content[state="home"] {
         animation-name: add;
         animation-timing-function: ease-in;
       }
-    }
-
-    div.file-upload {
-      background-color: $backgroundWhite;
-      padding: 1rem;
     }
 
     div.tabs {
