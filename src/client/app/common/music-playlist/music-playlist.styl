@@ -15,37 +15,41 @@ music-playlist {
     height: 128px;
   }
 
-  ul.playlist li {
-    transition: 300ms all ease;
-    padding: 1rem;
-    margin: 0.5rem;
-    border-radius: 0.25rem;
-    text-align: center;
+  ul.playlist {
+    flex-grow: 1;
 
-    &.selected {
-      background-color: $backgroundPrimary;
-    }
+    li {
+      transition: 300ms all ease;
+      padding: 1rem;
+      margin: 0.5rem;
+      border-radius: 0.25rem;
+      text-align: center;
 
-    &:hover {
-      cursor: pointer;
-      background-color: $backgroundHighlight;
-    }
-
-    .horizontal-separator {
-      margin: 0.10rem auto;
-      border: none;
-      transform: rotate(45deg);
-      color: transparentify($basicWhite, 0.8);
-
-      &:before {
-        font-size: 0.35rem;
-        font-family: icons;
-        content: '\E80F';
+      &.selected {
+        background-color: $backgroundPrimary;
       }
-    }
 
-    .artist {
-      font-style: italic;
+      &:hover {
+        cursor: pointer;
+        background-color: $backgroundHighlight;
+      }
+
+      .horizontal-separator {
+        margin: 0.10rem auto;
+        border: none;
+        transform: rotate(45deg);
+        color: transparentify($basicWhite, 0.8);
+
+        &:before {
+          font-size: 0.35rem;
+          font-family: icons;
+          content: '\E80F';
+        }
+      }
+
+      .artist {
+        font-style: italic;
+      }
     }
   }
 }

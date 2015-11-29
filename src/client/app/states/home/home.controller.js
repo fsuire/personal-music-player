@@ -26,6 +26,7 @@
         return isOk;
       }
     });
+    vm.searchText = '';
 
     vm.fileUploader.onWhenAddingFileFailed = onWhenAddingFileFailed;
     vm.fileUploader.onAfterAddingFile = onAfterAddingFile;

@@ -13,6 +13,7 @@
     .module('common', [
       'common.drag-and-drop',
       'common.filters',
+      'common.form-element',
       'common.logger',
       'common.music-files',
       'common.music-player',

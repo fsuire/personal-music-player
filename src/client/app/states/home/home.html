@@ -3,9 +3,17 @@
 
   <music-playlist socket="homeController.socket"></music-playlist>
 
+  <!-- ****************** -->
+  <!-- ****************** -->
+
   <div class="music-search panel ng-hide" ng-hide="!homeController.searchDisplay">
+    <form>
+      <form-element><label>Search</label><input type="text" name="search" ng-model="homeController.searchText" pattern="[a-z]+" required></form-element>
+    </form>
     <music-files socket="homeController.socket" scroll></music-files>
   </div>
+
+  <!-- ****************** -->
 
   <div class="file-upload panel ng-hide" ng-hide="!homeController.fileUploadDisplay">
     <div
@@ -31,6 +39,9 @@
         title="upload"></button>
     </div>
   </div>
+
+  <!-- ****************** -->
+  <!-- ****************** -->
 
   <div class="tabs">
     <div
