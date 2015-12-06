@@ -55,3 +55,37 @@ button {
 
   }
 }
+
+form-element {
+  margin-bottom: 1rem;
+}
+
+element-line {
+  * {
+    line-height: 1.75rem;
+  }
+
+  &.required::after {
+    color: $alertColor;
+  }
+}
+
+messages-line div {
+  margin-top: 0.5rem;
+
+  &.error {
+    color: $alertColor;
+  }
+}
+
+input {
+  border: 1px solid $filigreeFontColor;
+  background-color: $backgroundWhite;
+  border-radius: 0.25rem;
+}
+
+element-line.error input,
+input.error {
+  border-color: transparentify($alertColor, 0.8);
+  box-shadow: none;
+}

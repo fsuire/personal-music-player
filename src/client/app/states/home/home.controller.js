@@ -5,9 +5,9 @@
     .module('app.states')
     .controller('HomeController', HomeController);
 
-  HomeController.$inject = ['$location', 'socketIo', 'FileUploader'];
+  HomeController.$inject = ['$location', '$http', 'socketIo', 'FileUploader'];
 
-  function HomeController($location, socketIo, FileUploader) {
+  function HomeController($location, $http, socketIo, FileUploader) {
     var vm = this;
 
     vm.searchDisplay = false;
@@ -27,6 +27,7 @@
       }
     });
     vm.searchText = '';
+    vm.searchResponse = [];
 
     vm.fileUploader.onWhenAddingFileFailed = onWhenAddingFileFailed;
     vm.fileUploader.onAfterAddingFile = onAfterAddingFile;
@@ -36,6 +37,7 @@
     vm.toggleSearchDisplayAction = toggleSearchDisplayAction;
     vm.toggleFileUploadDisplayAction = toggleFileUploadDisplayAction;
     vm.uploadFilesAction = uploadFilesAction;
+    vm.searchMusicAction = searchMusicAction;
 
     ////////////////
 
@@ -74,6 +76,14 @@
       if(vm.searchDisplay && vm.fileUploadDisplay) {
         vm.searchDisplay = false;
       }
+    }
+
+    function searchMusicAction() {
+      $http
+        .get('/music/search/' + vm.searchText)
+        .then(function(response) {
+          vm.searchResponse = response.data;
+        });
     }
   }
 

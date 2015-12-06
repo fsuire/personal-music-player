@@ -8,9 +8,19 @@
 
   <div class="music-search panel ng-hide" ng-hide="!homeController.searchDisplay">
     <form>
-      <form-element><label>Search</label><input type="text" name="search" ng-model="homeController.searchText" pattern="[a-z]+" required></form-element>
+      <form-element class="search-element">
+        <label>Search some music</label>
+        <input
+          type="text"
+          name="search"
+          placeholder="Search some music"
+          ng-model="homeController.searchText"
+          ng-model-options="{debounce: {'default': 300, 'blur': 0}}"
+          ng-change="homeController.searchMusicAction()"
+          required>
+      </form-element>
     </form>
-    <music-files socket="homeController.socket" scroll></music-files>
+    <music-files socket="homeController.socket" music-list="homeController.searchResponse" scroll></music-files>
   </div>
 
   <!-- ****************** -->

@@ -1,4 +1,4 @@
-<element-line></element-line>
+<element-line ng-class="{'required': formElement.isRequired, 'error': formElement.hasErrors && !formElement.element.$pristine}"></element-line>
 <messages-line>
-  <div ng-show="formElement.element.$error.required && !formElement.element.$pristine">Required field</div>
+  <div ng-show="formElement.element.$error.required && !formElement.element.$pristine" class="error">Required field</div>
 </messages-line>

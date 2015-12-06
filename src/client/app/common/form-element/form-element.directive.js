@@ -36,6 +36,8 @@
     var originalContent = [];
     vm.elementname = '';
     vm.element = {};
+    vm.isRequired = false;
+    vm.hasErrors = false;
 
     for(var e in element.children) {
       if(typeof element.children[e] === 'object') {
@@ -44,29 +46,32 @@
         if(el.hasAttribute('name')) {
           vm.elementname = el.getAttribute('name');
         }
+        if(el.hasAttribute('required')) {
+          vm.isRequired = true;
+        }
       }
     }
-    //vm.error = $scope.form[vm.elementname].$error;
 
     $http
       .get('app/common/form-element/form-element.html')
       .then(function(response) {
         var content = $compile(response.data)($scope);
-        for(var e in content) {
-          if(typeof element.children[e] === 'object') {
-            element.appendChild(content[e]);
+        for(var contentElement in content) {
+          if(typeof element.children[contentElement] === 'object') {
+            element.appendChild(content[contentElement]);
           }
         }
         var elementLine = element.querySelector('element-line');
-        for(var e in originalContent) {
-          elementLine.appendChild(originalContent[e]);
+        for(var originalElement in originalContent) {
+          elementLine.appendChild(originalContent[originalElement]);
         }
       });
 
-    $scope.$watch(function() {
+    $scope.$watchCollection(function() {
       return $scope.form[vm.elementname];
     }, function(newValue) {
       vm.element = newValue;
+      vm.hasErrors = !!Object.keys(newValue.$error).length;
     });
 
   }

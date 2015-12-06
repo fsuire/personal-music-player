@@ -13,7 +13,8 @@
       restrict: 'E',
       templateUrl: 'app/common/music-files/music-files.html',
       scope: {
-        socket: '='
+        socket: '=',
+        musicList: '='
       },
       controller: MusiqueFilesController,
       bindToController: true,
@@ -27,13 +28,9 @@
   function MusiqueFilesController($scope, $http) {
     var vm = this;
 
-    vm.musicList = [];
+    vm.musicList = vm.musicList || [];
 
     vm.addToPlaylistAction = addToPlaylistAction;
-
-    $http.get('/music/list').then(function(response) {
-      vm.musicList = response.data;
-    });
 
     ////////////////
 

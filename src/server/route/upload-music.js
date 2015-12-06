@@ -21,7 +21,6 @@
 
     return function(app) {
       app.post('/upload-music', upload.any(), addMusic);
-      app.get('/music/list', getMusicList);
       app.get('/music/play/:id', playMusic);
     };
 
@@ -70,20 +69,6 @@
       } catch(error) {
         console.log('/upload-music error', error);
       }
-    }
-
-    function getMusicList(req, res, next) {
-      db.collection('fs.files').find().toArray(function(error, docs) {
-        var response = [];
-        _.forEach(docs, function(doc) {
-          var track = {
-            id: doc._id
-          };
-          _.merge(track, doc.metadata);
-          response.push(track);
-        });
-        res.end(JSON.stringify(response));
-      });
     }
 
     function playMusic(req, res, next) {
