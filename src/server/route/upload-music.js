@@ -21,7 +21,6 @@
 
     return function(app) {
       app.post('/upload-music', upload.any(), addMusic);
-      app.get('/music/play/:id', playMusic);
     };
 
     ////////////////
@@ -69,14 +68,6 @@
       } catch(error) {
         console.log('/upload-music error', error);
       }
-    }
-
-    function playMusic(req, res, next) {
-      var readstream = grid.createReadStream({
-        _id: req.params.id
-      });
-
-      readstream.pipe(res);
     }
 
   }

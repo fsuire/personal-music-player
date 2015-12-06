@@ -3,7 +3,15 @@
 
   angular
     .module('common.router')
-    .provider('routerHelper', routerHelperProvider);
+    .provider('routerHelper', routerHelperProvider)
+    .config(routerConfig);
+
+  routerConfig.$inject = ['$locationProvider'];
+
+  function routerConfig($locationProvider) {
+    //$locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(false);
+  }
 
   routerHelperProvider.$inject = ['$stateProvider', '$urlRouterProvider'];
 

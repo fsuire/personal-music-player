@@ -10,7 +10,8 @@
   },
 
   "routes": [
-    "route/upload-music",
-    "route/search-music"
+    "route/play-music",
+    "route/search-music",
+    "route/upload-music"
   ]
 }
