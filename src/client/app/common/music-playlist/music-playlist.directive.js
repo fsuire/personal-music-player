@@ -45,6 +45,7 @@
     ////////////////
 
     function socketPlaylist(playlist, currentTrackIndex) {
+      console.log('!!! socketPlayList');
       musicPlaylist.currentTrackIndex = currentTrackIndex;
       musicPlaylist.playlist = playlist;
       $scope.$apply(function() {

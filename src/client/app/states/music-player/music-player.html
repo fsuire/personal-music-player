@@ -1,0 +1,77 @@
+
+<header>
+  <button ng-click="musicPlayer.toggleRemoteOrStreamAction()">
+    {{ musicPlayer.title }}
+  </button>
+</header>
+
+<section class="panels">
+
+  <music-playlist socket="musicPlayer.socket"></music-playlist>
+
+  <!-- ****************** -->
+  <!-- ****************** -->
+
+  <div class="music-search panel ng-hide" ng-hide="!musicPlayer.searchDisplay">
+    <form>
+      <form-element class="search-element">
+        <label>Search some music</label>
+        <input
+          type="text"
+          name="search"
+          placeholder="Search some music"
+          ng-model="musicPlayer.searchText"
+          ng-model-options="{debounce: {'default': 300, 'blur': 0}}"
+          ng-change="musicPlayer.searchMusicAction()"
+        >
+      </form-element>
+    </form>
+    <music-files socket="musicPlayer.socket" music-list="musicPlayer.searchResponse" scroll></music-files>
+  </div>
+
+  <!-- ****************** -->
+
+  <div class="file-upload panel ng-hide" ng-hide="!musicPlayer.fileUploadDisplay">
+    <div
+      class="file-drop-zone"
+      nv-file-drop uploader="musicPlayer.fileUploader"
+      nv-file-over
+    >
+      <div ng-show="!musicPlayer.fileUploader.queue.length" class="empty-drop-zone"></div>
+
+      <div class="file-list" ng-show="musicPlayer.fileUploader.queue.length">
+        <div class="file" ng-repeat="item in musicPlayer.fileUploader.queue">
+          {{ item.file.name }}
+        </div>
+      </div>
+
+    </div>
+
+    <div class="button-bar">
+      <button
+        ng-disabled="!musicPlayer.fileUploader.queue.length"
+        ng-click="musicPlayer.uploadFilesAction()"
+        class="upload-button"
+        title="upload"></button>
+    </div>
+  </div>
+
+  <!-- ****************** -->
+  <!-- ****************** -->
+
+  <div class="tabs">
+    <div
+      ng-click="musicPlayer.toggleSearchDisplayAction();"
+      ng-class="{'selected': musicPlayer.searchDisplay}"
+      class="search"
+    ></div>
+
+    <div
+      ng-click="musicPlayer.toggleFileUploadDisplayAction();"
+      ng-class="{'selected': musicPlayer.fileUploadDisplay}"
+      class="file-upload"
+    ></div>
+  </div>
+</section>
+
+<music-player socket="musicPlayer.socket"></music-player>

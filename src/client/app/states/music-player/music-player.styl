@@ -1,4 +1,4 @@
-div.content[state="remote-mplayer"] {
+div.content[state^="music-player"] {
   display: flex;
   flex-direction: column;
 
@@ -25,6 +25,38 @@ div.content[state="remote-mplayer"] {
     }
   }
 
+  header {
+    display: block;
+    position: absolute;
+    z-index: 1;
+
+    button {
+      transform-style:preserve-3d;
+      position: absolute;
+      font-size: 2.5rem;
+      padding: 5rem 2rem 2rem 5rem;
+      border-radius: 100%
+      background: none;
+      top: -4rem;
+      left: -4rem;
+      display: block;
+      align-items: center;
+      justify-content: center;
+      width: 16rem;
+      height: 13rem;
+      box-shadow: 4px 4px 4px 0px transparentify(#000000, 0.6);
+      margin: 0;
+      border: 0;
+      animation-duration: 300ms;
+      background-color: $primaryColor;
+
+      &:hover {
+        background-color: darken($highlightColor, 30%);
+      }
+    }
+
+  }
+
   section.panels {
     flex: 1 50;
     position: relative;
@@ -35,6 +67,8 @@ div.content[state="remote-mplayer"] {
 
     music-playlist {
       width: 12rem;
+      padding-top: 8.5rem;
+      padding-bottom: 1.75rem;
     }
 
     music-files {

@@ -3,16 +3,17 @@
 
   angular
     .module('app.states')
-    .controller('RemoteMplayerController', RemoteMplayerController);
+    .controller('MusicPlayerController', MusicPlayerController);
 
-  RemoteMplayerController.$inject = ['$location', '$http', 'socketIo', 'FileUploader'];
+  MusicPlayerController.$inject = ['$state', '$location', '$http', 'socketIo', 'FileUploader'];
 
-  function RemoteMplayerController($location, $http, socketIo, FileUploader) {
+  function MusicPlayerController($state, $location, $http, socketIo, FileUploader) {
     var vm = this;
 
+    vm.title = 'Remote Control';
     vm.searchDisplay = false;
     vm.fileUploadDisplay = false;
-    vm.socket = socketIo.connect($location.host() + ':' + $location.port() + '/mplayer');
+    vm.socket = null;
     vm.fileUploader = new FileUploader({
       url: 'upload-music'
     });
@@ -34,10 +35,23 @@
     vm.fileUploader.onAfterAddingAll = onAfterAddingAll;
     vm.fileUploader.onCompleteAll = onCompleteAll;
 
+    vm.toggleRemoteOrStreamAction = toggleRemoteOrStreamAction;
     vm.toggleSearchDisplayAction = toggleSearchDisplayAction;
     vm.toggleFileUploadDisplayAction = toggleFileUploadDisplayAction;
     vm.uploadFilesAction = uploadFilesAction;
     vm.searchMusicAction = searchMusicAction;
+
+    _init();
+
+    ////////////////
+
+    function _init() {
+      if($state.current.name === 'music-player_stream') {
+        vm.title = 'Stream Music';
+      } else {
+        vm.socket = socketIo.connect($location.host() + ':' + $location.port() + '/mplayer');
+      }
+    }
 
     ////////////////
 
@@ -59,6 +73,14 @@
     }
 
     ////////////////
+
+    function toggleRemoteOrStreamAction() {
+      var targetedRoute = 'music-player_stream';
+      if($state.current.name === targetedRoute) {
+        targetedRoute = 'music-player_remote';
+      }
+      $state.go(targetedRoute);
+    }
 
     function uploadFilesAction() {
       vm.fileUploader.uploadAll();

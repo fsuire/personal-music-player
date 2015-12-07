@@ -1,61 +1,59 @@
 <section class="control-panel">
   <button
     class="play-button"
-    ng-click="musicPlayer.playAction()"
-    ng-if="musicPlayer.pause"
-    ng-disabled="musicPlayer.playlistLength === 0"
+    ng-click="musicPlayer.controls.playAction()"
+    ng-if="musicPlayer.controls.pause"
+    ng-disabled="musicPlayer.controls.playlistLength === 0"
   ></button>
   <button
     class="pause-button"
-    ng-click="musicPlayer.pauseAction()"
-    ng-if="!musicPlayer.pause"
+    ng-click="musicPlayer.controls.pauseAction()"
+    ng-if="!musicPlayer.controls.pause"
   ></button>
 
   <div class="infoline">
     <button
       class="previous-track"
-      ng-click="musicPlayer.previousTrackAction()"
-      ng-disabled="musicPlayer.playlistLength === 0 || musicPlayer.currentTrackIndex === 0"
+      ng-click="musicPlayer.controls.previousTrackAction()"
+      ng-disabled="musicPlayer.controls.playlistLength === 0 || musicPlayer.controls.currentTrackIndex === 0"
     ></button>
     <button
       class="next-track"
-      ng-click="musicPlayer.nextTrackAction()"
-      ng-disabled="musicPlayer.playlistLength === 0 || (musicPlayer.currentTrackIndex === (musicPlayer.playlistLength - 1)  && !musicPlayer.isLoopPlaying)"
+      ng-click="musicPlayer.controls.nextTrackAction()"
+      ng-disabled="musicPlayer.controls.playlistLength === 0 || (musicPlayer.controls.currentTrackIndex === (musicPlayer.controls.playlistLength - 1)  && !musicPlayer.controls.isLoopPlaying)"
     ></button>
 
     <button
       class="loop-playlist"
-      ng-click="musicPlayer.toggleLoopPlaylistAction()"
-      ng-class="{'selected': musicPlayer.isLoopPlaying}"
+      ng-click="musicPlayer.controls.toggleLoopPlaylistAction()"
+      ng-class="{'selected': musicPlayer.controls.isLoopPlaying}"
     ></button>
     <button
       class="random-playlist"
-      ng-click="musicPlayer.toggleRandomPlaylistAction()"
-      ng-class="{'selected': musicPlayer.isRandomPlaying}"
+      ng-click="musicPlayer.controls.toggleRandomPlaylistAction()"
+      ng-class="{'selected': musicPlayer.controls.isRandomPlaying}"
     ></button>
-
-    <div class="title">{{ musicPlayer.currentTrack.title || 'Pas de lecture' }}</div>
 
     <div class="volume">
       <input
         type="range"
         min="0"
         max="100"
-        ng-model="musicPlayer.volume"
-        ng-change="musicPlayer.volumeAction()"
+        ng-model="musicPlayer.controls.volume"
+        ng-change="musicPlayer.controls.volumeAction()"
       />
     </div>
   </div>
 
   <div class="timeline">
-    <div>{{ musicPlayer.timePosition | formatSeconds }}</div>
+    <div>{{ musicPlayer.controls.timePosition | formatSeconds }}</div>
     <input
       type="range"
       min="0"
-      max="{{ musicPlayer.currentTrack.duration || 10 }}"
-      ng-model="musicPlayer.timePosition"
-      ng-mouseup="musicPlayer.timeLineAction()"
+      max="{{ musicPlayer.controls.currentTrack.duration || 10 }}"
+      ng-model="musicPlayer.controls.timePosition"
+      ng-mouseup="musicPlayer.controls.timeLineAction()"
     />
-    <div>{{ musicPlayer.currentTrack.duration | formatSeconds }}</div>
+    <div>{{ musicPlayer.controls.currentTrack.duration | formatSeconds }}</div>
   </div>
 </section>

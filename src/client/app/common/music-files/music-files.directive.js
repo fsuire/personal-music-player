@@ -28,6 +28,8 @@
   function MusiqueFilesController($scope, $http) {
     var vm = this;
 
+    console.log('musicFilesDirective', vm.socket);
+
     vm.musicList = vm.musicList || [];
 
     vm.addToPlaylistAction = addToPlaylistAction;
@@ -35,6 +37,7 @@
     ////////////////
 
     function addToPlaylistAction($event, id) {
+      console.log('Add to playlist', vm.socket);
       vm.socket.emit('addToPlaylist', id);
     }
 

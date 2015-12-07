@@ -24,12 +24,22 @@
   function _getStates() {
     return [
       {
-        state: 'remote-mplayer',
+        state: 'music-player_remote',
         config: {
-          url: '/remote-mplayer',
-          templateUrl: 'app/states/remote-mplayer/remote-mplayer.html',
-          controller: 'RemoteMplayerController',
-          controllerAs: 'remoteMplayer',
+          url: '/music-player/remote',
+          templateUrl: 'app/states/music-player/music-player.html',
+          controller: 'MusicPlayerController',
+          controllerAs: 'musicPlayer',
+          data: {}
+        }
+      },
+      {
+        state: 'music-player_stream',
+        config: {
+          url: '/music-player/stream',
+          templateUrl: 'app/states/music-player/music-player.html',
+          controller: 'MusicPlayerController',
+          controllerAs: 'musicPlayer',
           data: {}
         }
       }
