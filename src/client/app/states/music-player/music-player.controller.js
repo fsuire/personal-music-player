@@ -5,15 +5,20 @@
     .module('app.states')
     .controller('MusicPlayerController', MusicPlayerController);
 
-  MusicPlayerController.$inject = ['$state', '$location', '$http', 'socketIo', 'FileUploader'];
+  MusicPlayerController.$inject = [
+    '$state', '$location', '$http', 'socketIo', 'FileUploader',
+    'musicPlayerRemoteControl', 'musicPlaylistRemoteControl', 'musicFileRemoteControl'
+  ];
 
-  function MusicPlayerController($state, $location, $http, socketIo, FileUploader) {
+  function MusicPlayerController(
+    $state, $location, $http, socketIo, FileUploader,
+    musicPlayerRemoteControl, musicPlaylistRemoteControl, musicFileRemoteControl
+  ) {
     var vm = this;
 
     vm.title = 'Remote Control';
     vm.searchDisplay = false;
     vm.fileUploadDisplay = false;
-    vm.socket = null;
     vm.fileUploader = new FileUploader({
       url: 'upload-music'
     });
@@ -28,7 +33,9 @@
       }
     });
     vm.searchText = '';
-    vm.searchResponse = [];
+    vm.playerControls = null;
+    vm.playlistControls = null;
+    vm.fileControls = null;
 
     vm.fileUploader.onWhenAddingFileFailed = onWhenAddingFileFailed;
     vm.fileUploader.onAfterAddingFile = onAfterAddingFile;
@@ -49,7 +56,10 @@
       if($state.current.name === 'music-player_stream') {
         vm.title = 'Stream Music';
       } else {
-        vm.socket = socketIo.connect($location.host() + ':' + $location.port() + '/mplayer');
+        var socket = socketIo.connect($location.host() + ':' + $location.port() + '/mplayer');
+        vm.playerControls =  musicPlayerRemoteControl({socket: socket});
+        vm.playlistControls =  musicPlaylistRemoteControl({socket: socket});
+        vm.fileControls =  musicFileRemoteControl({socket: socket, musicList: []});
       }
     }
 
@@ -104,7 +114,7 @@
       $http
         .get('/music/search/' + vm.searchText)
         .then(function(response) {
-          vm.searchResponse = response.data;
+          vm.fileControls.setMusicList(response.data);
         });
     }
   }

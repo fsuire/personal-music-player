@@ -13,8 +13,7 @@
       restrict: 'E',
       templateUrl: 'app/common/music-files/music-files.html',
       scope: {
-        socket: '=',
-        musicList: '='
+        controls: '='
       },
       controller: MusiqueFilesController,
       bindToController: true,
@@ -28,17 +27,13 @@
   function MusiqueFilesController($scope, $http) {
     var vm = this;
 
-    console.log('musicFilesDirective', vm.socket);
-
-    vm.musicList = vm.musicList || [];
-
-    vm.addToPlaylistAction = addToPlaylistAction;
+    var _destroyEvent = vm.controls.onUpdate(controlsUpdate);
+    $scope.$on('$destroy', _destroyEvent);
 
     ////////////////
 
-    function addToPlaylistAction($event, id) {
-      console.log('Add to playlist', vm.socket);
-      vm.socket.emit('addToPlaylist', id);
+    function controlsUpdate() {
+      $scope.$apply();
     }
 
   }

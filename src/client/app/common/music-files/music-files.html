@@ -1,9 +1,9 @@
 
-<p ng-show="!musicFiles.musicList.length" class="flex-grow no-results">
+<p ng-show="!musicFiles.controls.musicList.length" class="flex-grow no-results">
   No result !
 </p>
 
-<table ng-show="musicFiles.musicList.length">
+<table ng-show="musicFiles.controls.musicList.length">
   <thead>
     <tr>
       <td>Artist</td>
@@ -14,8 +14,8 @@
   </thead>
   <tbody>
     <tr
-      ng-repeat="track in musicFiles.musicList"
-      ng-click="musicFiles.addToPlaylistAction($event, track)"
+      ng-repeat="track in musicFiles.controls.musicList"
+      ng-click="musicFiles.controls.addToPlaylistAction($event, track)"
     >
       <td>{{ track.artist }}</td>
       <td>{{ track.album }}</td>

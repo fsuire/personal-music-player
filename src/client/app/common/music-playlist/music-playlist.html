@@ -1,8 +1,8 @@
 <ul class="playlist" scroll>
   <li
-    ng-repeat="music in musicPlaylist.playlist track by $index"
-    ng-class="{'selected': $index === musicPlaylist.currentTrackIndex }"
-    ng-click="musicPlaylist.clickOnTrackAction($event, $index);"
+    ng-repeat="music in musicPlaylist.controls.playlist track by $index"
+    ng-class="{'selected': $index === musicPlaylist.controls.currentTrackIndex }"
+    ng-click="musicPlaylist.controls.clickOnTrackAction($event, $index);"
   >
     <div class="title">{{ music.title }}</div>
     <div class="horizontal-separator"></div>

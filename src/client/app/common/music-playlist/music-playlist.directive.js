@@ -13,7 +13,7 @@
       restrict: 'E',
       templateUrl: 'app/common/music-playlist/music-playlist.html',
       scope: {
-        socket: '='
+        controls: '='
       },
       controller: MusiquePlaylistController,
       bindToController: true,
@@ -27,32 +27,15 @@
   function MusiquePlaylistController($scope, musicPlaylist) {
     var vm = this;
 
-    vm.playlist = [];
-    vm.currentTrackIndex = 0;
-
-    vm.socket.on('mplayer.playlist', socketPlaylist);
-
-    vm.clickOnTrackAction = clickOnTrackAction;
+    var _destroyEvent = vm.controls.onUpdate(controlsUpdate);
+    $scope.$on('$destroy', _destroyEvent);
 
     ////////////////
 
-    function clickOnTrackAction(event, index) {
-      if(index !== vm.currentTrackIndex) {
-        vm.socket.emit('play-track', index);
-      }
+    function controlsUpdate() {
+      $scope.$apply();
     }
 
-    ////////////////
-
-    function socketPlaylist(playlist, currentTrackIndex) {
-      console.log('!!! socketPlayList');
-      musicPlaylist.currentTrackIndex = currentTrackIndex;
-      musicPlaylist.playlist = playlist;
-      $scope.$apply(function() {
-        vm.playlist = playlist;
-        vm.currentTrackIndex = currentTrackIndex;
-      });
-    }
   }
 
 })();

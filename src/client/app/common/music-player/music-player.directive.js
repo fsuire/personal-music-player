@@ -13,7 +13,7 @@
       restrict: 'E',
       templateUrl: 'app/common/music-player/music-player.html',
       scope: {
-        socket: '='
+        controls: '='
       },
       controller: MusiquePlayerController,
       bindToController: true,
@@ -22,23 +22,19 @@
 
   }
 
-  MusiquePlayerController.$inject = ['$scope', 'musicPlayerRemote'];
+  MusiquePlayerController.$inject = ['$scope'];
 
-  function MusiquePlayerController($scope, musicPlayerRemote) {
+  function MusiquePlayerController($scope) {
     var vm = this;
 
-    vm.controls = null;
-
-    if(vm.socket) {
-      vm.controls =  musicPlayerRemote({socket: vm.socket}, _scopeApply);
-    }
+    var _destroyEvent = vm.controls.onUpdate(controlsUpdate);
+    $scope.$on('$destroy', _destroyEvent);
 
     ////////////////
 
-    function _scopeApply() {
+    function controlsUpdate() {
       $scope.$apply();
     }
-
   }
 
 })();

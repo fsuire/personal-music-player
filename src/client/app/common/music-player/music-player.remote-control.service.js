@@ -3,20 +3,23 @@
 
   angular
     .module('common.music-player')
-    .factory('musicPlayerRemote', musicPlayerRemoteFactory);
+    .factory('musicPlayerRemoteControl', musicPlayerRemoteControlFactory);
 
-  musicPlayerRemoteFactory.$inject = ['musicPlaylist'];
+  musicPlayerRemoteControlFactory.$inject = ['musicPlaylist'];
 
-  function musicPlayerRemoteFactory(musicPlaylist) {
+  function musicPlayerRemoteControlFactory(musicPlaylist) {
 
-    return function(options, applyChanges) {
-      return new PlayerControl(options, applyChanges);
+    return function(options) {
+      return new PlayerControl(options);
     };
 
     ////////////////
 
-    function PlayerControl(options, applyChanges) {
+    function PlayerControl(options) {
       var self = this;
+
+      var _updateFunctions = {};
+      var _nextId = 0;
 
       self.socket = options.socket;
       self.playlistLength = 0;
@@ -41,6 +44,8 @@
       self.timeLineAction = timeLineAction;
       self.toggleLoopPlaylistAction = toggleLoopPlaylistAction;
       self.toggleRandomPlaylistAction = toggleRandomPlaylistAction;
+
+      self.onUpdate = onUpdate;
 
       self.socket.emit('getPlaylist', {});
 
@@ -78,35 +83,45 @@
         self.socket.emit('toggle-random-playlist', !self.isRandomPlaying);
       }
 
+      function onUpdate(fn) {
+        var id = _nextId;
+        _nextId++;
+        _updateFunctions[id] = fn;
+        return function() {
+          delete _updateFunctions[id];
+        };
+      }
+
+      function _emitUdpate() {
+        for(var i in _updateFunctions) {
+          _updateFunctions[i]();
+        }
+      }
+
       ////////////////
 
       function socketPlaylist(playlist, currentTrackIndex) {
         self.playlistLength = parseInt(playlist.length);
         self.currentTrack = musicPlaylist.playlist[currentTrackIndex] || {duration: 0};
         self.currentTrackIndex = currentTrackIndex;
-
-        applyChanges();
+        _emitUdpate();
       }
 
       function socketStatus(status) {
-        console.log(':O');
         self.pause = status.pause;
         self.volume = status.volume;
         self.timePosition = status.timePosition;
-
-        applyChanges();
+        _emitUdpate();
       }
 
       function socketIsLoopPlaying(isLoop) {
         self.isLoopPlaying = isLoop;
-
-        applyChanges();
+        _emitUdpate();
       }
 
       function socketIsRandomPlaying(isRandom) {
         self.isRandomPlaying = isRandom;
-
-        applyChanges();
+        _emitUdpate();
       }
 
     }

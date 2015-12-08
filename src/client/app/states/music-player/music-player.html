@@ -7,7 +7,7 @@
 
 <section class="panels">
 
-  <music-playlist socket="musicPlayer.socket"></music-playlist>
+  <music-playlist controls="musicPlayer.playlistControls"></music-playlist>
 
   <!-- ****************** -->
   <!-- ****************** -->
@@ -26,7 +26,7 @@
         >
       </form-element>
     </form>
-    <music-files socket="musicPlayer.socket" music-list="musicPlayer.searchResponse" scroll></music-files>
+    <music-files controls="musicPlayer.fileControls" scroll></music-files>
   </div>
 
   <!-- ****************** -->
@@ -74,4 +74,4 @@
   </div>
 </section>
 
-<music-player socket="musicPlayer.socket"></music-player>
+<music-player controls="musicPlayer.playerControls"></music-player>
