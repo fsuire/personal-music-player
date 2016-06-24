@@ -22,9 +22,9 @@
 
   }
 
-  MusiquePlaylistController.$inject = ['$scope', 'musicPlaylist'];
+  MusiquePlaylistController.$inject = ['$scope'];
 
-  function MusiquePlaylistController($scope, musicPlaylist) {
+  function MusiquePlaylistController($scope) {
     var vm = this;
 
     var _destroyEvent = vm.controls.onUpdate(controlsUpdate);

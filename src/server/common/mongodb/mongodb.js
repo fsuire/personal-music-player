@@ -4,10 +4,10 @@
   module.exports = mongodb;
 
   mongodb['@singleton'] = true;
-  mongodb['@require'] = ['mongodb'];
+  mongodb['@require'] = ['mongodb', 'common/config/config'];
 
-  function mongodb(mongo) {
-    var db = new mongo.Db('personal-music-player', new mongo.Server("127.0.0.1", 27017));
+  function mongodb(mongo, config) {
+    var db = new mongo.Db('personal-music-player', new mongo.Server(config.mongodb.host, config.mongodb.port));
     return db;
   }
 

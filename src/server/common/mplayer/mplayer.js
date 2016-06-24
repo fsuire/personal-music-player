@@ -108,15 +108,15 @@
             try {
               data = data.toString();
 
-              status.timePosition = parseInt(_seekInputAnswer('ANS_TIME_POSITION')) || status.timePosition;
-
-              socketIo.of('/mplayer').emit('mplayer.status', status);
-
-              function _seekInputAnswer(what) {
+              var _seekInputAnswer = function(what) {
                 var regexp = new RegExp(what + "='?(.+[^']?)'?\n?");
                 var response = data.match(regexp);
                 return (response) ? response[1] : null;
-              };
+              }
+
+              status.timePosition = parseInt(_seekInputAnswer('ANS_TIME_POSITION')) || status.timePosition;
+
+              socketIo.of('/mplayer').emit('mplayer.status', status);
             } catch(error) {
               console.log('!!mplayer onplay on data ERROR!!', error);
             }

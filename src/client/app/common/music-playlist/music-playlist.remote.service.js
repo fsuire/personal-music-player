@@ -3,11 +3,11 @@
 
   angular
     .module('common.music-playlist')
-    .factory('musicPlaylist', musicPlaylistFactory);
+    .factory('musicRemotePlaylist', musicRemotePlaylistFactory);
 
-  musicPlaylistFactory.$inject = [];
+  musicRemotePlaylistFactory.$inject = [];
 
-  function musicPlaylistFactory() {
+  function musicRemotePlaylistFactory() {
     var playlist = {playlist: [], currentTrackIndex: 0};
     return playlist;
   }

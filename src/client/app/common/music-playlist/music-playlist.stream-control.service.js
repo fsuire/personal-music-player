@@ -3,11 +3,11 @@
 
   angular
     .module('common.music-playlist')
-    .factory('musicPlaylistRemoteControl', musicPlaylistRemoteControlFactory);
+    .factory('musicPlaylistStreamControl', musicPlaylistStreamControlFactory);
 
-  musicPlaylistRemoteControlFactory.$inject = ['musicRemotePlaylist'];
+  musicPlaylistStreamControlFactory.$inject = [];
 
-  function musicPlaylistRemoteControlFactory(musicRemotePlaylist) {
+  function musicPlaylistStreamControlFactory() {
 
     return function(options) {
       return new PlaylistControl(options);
@@ -21,13 +21,13 @@
       var _updateFunctions = {};
       var _nextId = 0;
 
-      self.socket = options.socket;
+      self.audio = options.audio;
       self.playlist = [];
       self.currentTrackIndex = 0;
 
-      self.socket.on('mplayer.playlist', socketPlaylist);
+      /*self.socket.on('mplayer.playlist', socketPlaylist);
 
-      self.clickOnTrackAction = clickOnTrackAction;
+      self.clickOnTrackAction = clickOnTrackAction;*/
 
 
       self.onUpdate = onUpdate;
@@ -51,22 +51,21 @@
 
       ////////////////
 
-      function clickOnTrackAction(event, index) {
+      /*function clickOnTrackAction(event, index) {
         if(index !== self.currentTrackIndex) {
           self.socket.emit('play-track', index);
         }
-      }
+      }*/
 
       ////////////////
 
-      function socketPlaylist(playlist, currentTrackIndex) {
-        musicRemotePlaylist.currentTrackIndex = currentTrackIndex;
-        musicRemotePlaylist.playlist = playlist;
-        console.log(':O', playlist);
+      /*function socketPlaylist(playlist, currentTrackIndex) {
+        musicPlaylist.currentTrackIndex = currentTrackIndex;
+        musicPlaylist.playlist = playlist;
         self.playlist = playlist;
         self.currentTrackIndex = currentTrackIndex;
         _emitUdpate();
-      }
+      }*/
 
 
 

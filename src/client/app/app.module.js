@@ -13,6 +13,7 @@
       /* Bower module */
       'angularFileUpload',
       'ngAnimate',
+      'ngAudio',
 
       /* Shared module */
       'common',

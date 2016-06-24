@@ -3,11 +3,11 @@
 
   angular
     .module('common.music-files')
-    .factory('musicFileRemoteControl', musicFileRemoteControlFactory);
+    .factory('musicFileStreamControl', musicFileStreamControlFactory);
 
-  musicFileRemoteControlFactory.$inject = [];
+  musicFileStreamControlFactory.$inject = [];
 
-  function musicFileRemoteControlFactory() {
+  function musicFileStreamControlFactory() {
 
     return function(options) {
       return new FileControl(options);
@@ -21,8 +21,10 @@
       var _updateFunctions = {};
       var _nextId = 0;
 
-      self.socket = options.socket;
+      self.audio = options.audio;
       self.musicList = options.musicList || [];
+      console.log(self.audio);
+      console.log(self.audio.audioTracks);
 
       self.addToPlaylistAction = addToPlaylistAction;
 
@@ -54,7 +56,8 @@
       ////////////////
 
       function addToPlaylistAction($event, id) {
-        self.socket.emit('addToPlaylist', id);
+        //self.socket.emit('addToPlaylist', id);
+        console.log(self.audio.audioTracks);
       }
 
 

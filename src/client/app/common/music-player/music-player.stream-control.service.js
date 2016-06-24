@@ -3,11 +3,11 @@
 
   angular
     .module('common.music-player')
-    .factory('musicPlayerRemoteControl', musicPlayerRemoteControlFactory);
+    .factory('musicPlayerStreamControl', musicPlayerStreamControlFactory);
 
-  musicPlayerRemoteControlFactory.$inject = ['musicRemotePlaylist'];
+  musicPlayerStreamControlFactory.$inject = [];
 
-  function musicPlayerRemoteControlFactory(musicRemotePlaylist) {
+  function musicPlayerStreamControlFactory() {
 
     return function(options) {
       return new PlayerControl(options);
@@ -21,7 +21,7 @@
       var _updateFunctions = {};
       var _nextId = 0;
 
-      self.socket = options.socket;
+      self.audio = options.audio;
       self.playlistLength = 0;
       self.pause = true;
       self.volume = 100;
@@ -31,10 +31,10 @@
       self.isLoopPlaying = false;
       self.isRandomPlaying = false;
 
-      self.socket.on('mplayer.playlist', socketPlaylist);
+      /*self.socket.on('mplayer.playlist', socketPlaylist);
       self.socket.on('mplayer.status', socketStatus);
       self.socket.on('mplayer.isLoopPlaying', socketIsLoopPlaying);
-      self.socket.on('mplayer.isRandomPlaying', socketIsRandomPlaying);
+      self.socket.on('mplayer.isRandomPlaying', socketIsRandomPlaying);*/
 
       self.playAction = playAction;
       self.pauseAction = pauseAction;
@@ -47,40 +47,40 @@
 
       self.onUpdate = onUpdate;
 
-      self.socket.emit('getPlaylist', {});
+      //self.socket.emit('getPlaylist', {});
 
       ////////////////
 
       function playAction() {
-        self.socket.emit('play', {});
+        //self.socket.emit('play', {});
       }
 
       function pauseAction() {
-        self.socket.emit('pause', {});
+        //self.socket.emit('pause', {});
       }
 
       function previousTrackAction() {
-        self.socket.emit('previous-track', {});
+        //self.socket.emit('previous-track', {});
       }
 
       function nextTrackAction() {
-        self.socket.emit('next-track', {});
+        //self.socket.emit('next-track', {});
       }
 
       function volumeAction() {
-        self.socket.emit('volume', self.volume);
+        //self.socket.emit('volume', self.volume);
       }
 
       function timeLineAction() {
-        self.socket.emit('position', self.timePosition);
+        //self.socket.emit('position', self.timePosition);
       }
 
       function toggleLoopPlaylistAction() {
-        self.socket.emit('toggle-loop-playlist', !self.isLoopPlaying);
+        //self.socket.emit('toggle-loop-playlist', !self.isLoopPlaying);
       }
 
       function toggleRandomPlaylistAction() {
-        self.socket.emit('toggle-random-playlist', !self.isRandomPlaying);
+        //self.socket.emit('toggle-random-playlist', !self.isRandomPlaying);
       }
 
       function onUpdate(fn) {
@@ -100,9 +100,9 @@
 
       ////////////////
 
-      function socketPlaylist(playlist, currentTrackIndex) {
+      /*function socketPlaylist(playlist, currentTrackIndex) {
         self.playlistLength = parseInt(playlist.length);
-        self.currentTrack = musicRemotePlaylist.playlist[currentTrackIndex] || {duration: 0};
+        self.currentTrack = musicPlaylist.playlist[currentTrackIndex] || {duration: 0};
         self.currentTrackIndex = currentTrackIndex;
         _emitUdpate();
       }
@@ -122,7 +122,7 @@
       function socketIsRandomPlaying(isRandom) {
         self.isRandomPlaying = isRandom;
         _emitUdpate();
-      }
+      }*/
 
     }
   }

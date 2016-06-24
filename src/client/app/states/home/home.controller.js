@@ -5,11 +5,11 @@
     .module('app.states')
     .controller('HomeController', HomeController);
 
-  HomeController.$inject = ['$location', '$http', 'socketIo', 'FileUploader'];
+  HomeController.$inject = ['$state'];
 
-  function HomeController($location, $http, socketIo, FileUploader) {
-    var vm = this;
-
+  function HomeController($state) {
+    //var vm = this;
+    $state.go('music-player_remote');
   }
 
 })();

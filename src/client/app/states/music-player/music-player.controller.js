@@ -6,13 +6,17 @@
     .controller('MusicPlayerController', MusicPlayerController);
 
   MusicPlayerController.$inject = [
-    '$state', '$location', '$http', 'socketIo', 'FileUploader',
-    'musicPlayerRemoteControl', 'musicPlaylistRemoteControl', 'musicFileRemoteControl'
+    '$state', '$location', '$http', 'Audio', 'socketIo', 'FileUploader',
+    'musicStreamPlaylist',
+    'musicPlayerRemoteControl', 'musicPlaylistRemoteControl', 'musicFileRemoteControl',
+    'musicPlayerStreamControl', 'musicPlaylistStreamControl', 'musicFileStreamControl'
   ];
 
   function MusicPlayerController(
-    $state, $location, $http, socketIo, FileUploader,
-    musicPlayerRemoteControl, musicPlaylistRemoteControl, musicFileRemoteControl
+    $state, $location, $http, Audio, socketIo, FileUploader,
+    musicStreamPlaylist,
+    musicPlayerRemoteControl, musicPlaylistRemoteControl, musicFileRemoteControl,
+    musicPlayerStreamControl, musicPlaylistStreamControl, musicFileStreamControl
   ) {
     var vm = this;
 
@@ -55,6 +59,12 @@
     function _init() {
       if($state.current.name === 'music-player_stream') {
         vm.title = 'Stream Music';
+        //var audio = new Audio('/music/play/5650db2e59d51056348f5eb2');
+        var audio = new Audio();
+        var playlist = musicStreamPlaylist();
+        vm.playerControls =  musicPlayerStreamControl({audio: audio, playlist: playlist});
+        vm.playlistControls =  musicPlaylistStreamControl({audio: audio, playlist: playlist});
+        vm.fileControls =  musicFileStreamControl({audio: audio, musicList: [], playlist: playlist});
       } else {
         var socket = socketIo.connect($location.host() + ':' + $location.port() + '/mplayer');
         vm.playerControls =  musicPlayerRemoteControl({socket: socket});
