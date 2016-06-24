@@ -17,7 +17,7 @@ git clone ...
 cd personal-music-player
 npm install -g bower
 npm i && bower i
-gulp --dev
+gulp --env=dev
 ```
 
 Then go to http://localhost:4000
