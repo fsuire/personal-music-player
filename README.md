@@ -1,9 +1,9 @@
 #personal-music-player
 
-/!\ This application is an experimentation. **It will never be finished or documented.**
+/!\ This application is an experimentation. **It will not be finished or documented.**
 
 personal-music-player is a small angular/nodejs/mongodb/gridfs-stream/socket.io music app.
-The goal is to put mp3 in mongodb, then read it with your desktop computer (using ffmpeg and mplayer) with the possibility to control it from another web terminal (like your smartphone).
+It aims at putting audio files in mongodb, then read them using ffmpeg and mplayer, with the possibility of a remote control from another web terminal (like your smartphone).
 
 ##Requirements
 
@@ -20,4 +20,4 @@ npm i && bower i
 gulp --env=dev
 ```
 
-Then go to http://localhost:4000 (and don't forget to upload music before searching)
+Then go to http://localhost:4000
