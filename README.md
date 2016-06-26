@@ -13,11 +13,11 @@ The goal is to put mp3 in mongodb, then read it with your desktop computer (usin
 ##Setup
 
 ```shell
-git clone ...
+git clone git clone https://github.com/fsuire/personal-music-player.git
 cd personal-music-player
 npm install -g bower
 npm i && bower i
 gulp --env=dev
 ```
 
-Then go to http://localhost:4000
+Then go to http://localhost:4000 (and don't forget to upload music before searching)
